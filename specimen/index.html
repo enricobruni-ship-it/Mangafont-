@@ -1,0 +1,122 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Mangafont — specimen</title>
+<style>
+  @font-face {
+    font-family: "Mangafont";
+    src: url("../build/Mangafont-Regular.woff2") format("woff2"),
+         url("../build/Mangafont-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+  }
+  :root { --ink: #16130f; --paper: #f6f3ec; --rule: #d8d2c4; --red: #b0332a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 15px/1.65 ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 56px 24px 96px; }
+  .mf { font-family: "Mangafont", serif; font-weight: 400; }
+
+  header { border-bottom: 3px solid var(--ink); padding-bottom: 20px; }
+  h1.mf { font-size: clamp(52px, 11vw, 128px); margin: 0; line-height: 1.05; }
+  .sub { display: flex; flex-wrap: wrap; gap: 8px 20px;
+         margin-top: 14px; font-size: 13px; letter-spacing: .06em;
+         text-transform: uppercase; color: #6b6355; }
+  .stamp { color: var(--red); border: 2px solid var(--red); border-radius: 4px;
+           padding: 1px 8px; font-family: "Mangafont", serif;
+           text-transform: none; letter-spacing: 0; }
+
+  section { margin-top: 52px; }
+  h2 { font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+       color: #8a8172; margin: 0 0 16px; font-weight: 600;
+       border-bottom: 1px solid var(--rule); padding-bottom: 8px; }
+
+  .chars { font-family: "Mangafont", serif; font-size: 40px;
+           line-height: 1.7; letter-spacing: .04em; word-break: break-all; }
+  .waterfall p { margin: 0 0 14px; font-family: "Mangafont", serif; }
+  .s72 { font-size: 72px; } .s48 { font-size: 48px; }
+  .s32 { font-size: 32px; } .s24 { font-size: 24px; } .s17 { font-size: 17px; }
+
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 32px; }
+  .cols p.mf { font-size: 17px; line-height: 1.75; margin: 0; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--rule); }
+  th { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #8a8172; }
+  td.g { font-family: "Mangafont", serif; font-size: 30px; width: 70px; }
+  td.k { font-size: 26px; width: 70px; }
+
+  footer { margin-top: 72px; border-top: 1px solid var(--rule); padding-top: 18px;
+           font-size: 13px; color: #8a8172; }
+  @media (max-width: 560px) { .s72 { font-size: 48px; } .chars { font-size: 30px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1 class="mf">Mangafont</h1>
+    <div class="sub">
+      <span>A Latin alphabet built from Japanese brush strokes</span>
+      <span class="stamp">100 glyphs</span>
+      <span>1000 upm</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Character set</h2>
+    <div class="chars">
+      ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+      abcdefghijklmnopqrstuvwxyz<br>
+      0123456789<br>
+      .,:;!?&#39;&quot;()[]{}&lt;&gt;/\|-–—_~^`@#$%&amp;*+=、。
+    </div>
+  </section>
+
+  <section class="waterfall">
+    <h2>Waterfall</h2>
+    <p class="s72">Tokyo Night Market</p>
+    <p class="s48">Ramen, gyoza and cold beer</p>
+    <p class="s32">The brush lifts and leaves a flag behind it</p>
+    <p class="s24">Every horizontal climbs two degrees to the right, as a hand does</p>
+    <p class="s17">Pack my box with five dozen liquor jugs — 0123456789 — waltz, nymph, for quick jigs vex Bud</p>
+  </section>
+
+  <section>
+    <h2>In text</h2>
+    <div class="cols">
+      <p class="mf">A glyph here is not a shape but a sequence of brush strokes.
+        Each stroke is a centreline, a pressure profile along it, and a pair of
+        terminals; the outline is derived by offsetting. Nothing is drawn as a
+        closed contour by hand.</p>
+      <p class="mf">Bowls are chamfered rectangles rather than circles, and the
+        side bearings are wide and nearly even, so a line of text blocks up the
+        way Japanese text does instead of flowing.</p>
+      <p class="mf">Where a Latin letter has an exact counterpart in the source
+        script, it is drawn as that character and not as the letter — which is
+        why the alphabet holds together at all.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Letters drawn as their counterparts</h2>
+    <table>
+      <tr><th>Latin</th><th>Source</th><th>Construction</th></tr>
+      <tr><td class="g">C</td><td class="k">匚</td><td>top horizontal, then one fold down and along the floor</td></tr>
+      <tr><td class="g">I</td><td class="k">工</td><td>slab top and bottom — the square wants filling</td></tr>
+      <tr><td class="g">L</td><td class="k">乚</td><td>one stroke that turns and flicks up</td></tr>
+      <tr><td class="g">T</td><td class="k">丁</td><td>horizontal, then a vertical down the centre</td></tr>
+      <tr><td class="g">X</td><td class="k">乂</td><td>左払い crossed by 右払い</td></tr>
+      <tr><td class="g">Y</td><td class="k">丫</td><td>two sweeps into a stem</td></tr>
+      <tr><td class="g">u</td><td class="k">り</td><td>the left stroke turns along the floor</td></tr>
+      <tr><td class="g">t</td><td class="k">十</td><td>crossbar and a stem that hooks at the foot</td></tr>
+      <tr><td class="g">l</td><td class="k">レ</td><td>flicks at the foot, so it never reads as I (工)</td></tr>
+      <tr><td class="g">#</td><td class="k">井</td><td>it already was this glyph</td></tr>
+      <tr><td class="g">[</td><td class="k">「</td><td>the corner bracket shares the skeleton exactly</td></tr>
+    </table>
+  </section>
+
+  <footer>
+    Mangafont 1.000 · SIL Open Font License 1.1 · built from stroke skeletons
+  </footer>
+</div>

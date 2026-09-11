@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+
+# build/ is generated; the shipped font and the proof sheet are kept
+build/*
+!build/Mangafont-Regular.ttf
+!build/Mangafont-Regular.woff2
+!build/proof.png
