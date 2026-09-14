@@ -88,10 +88,22 @@ away, like か.
 100 glyphs: A–Z, a–z, 0–9, the whole printable ASCII range, en/em dash, plus
 、 (U+3001) and 。 (U+3002) for when you want the real thing.
 
+## Download
+
+| Format | File | Use |
+|---|---|---|
+| TrueType | [`build/Mangafont-Regular.ttf`](build/Mangafont-Regular.ttf) | installing on Windows, macOS, Linux |
+| OpenType/CFF | [`build/Mangafont-Regular.otf`](build/Mangafont-Regular.otf) | design apps — Illustrator, InDesign, Figma, Affinity |
+| WOFF2 | [`build/Mangafont-Regular.woff2`](build/Mangafont-Regular.woff2) | the web |
+
+On GitHub, open the file and use the **Download raw file** button. Both the
+TTF and the OTF are the same outlines; the OTF is the CFF/PostScript build
+(cubic curves), the TTF is quadratic.
+
 ## Building
 
 ```sh
-make            # builds build/Mangafont-Regular.ttf and .woff2
+make            # builds build/Mangafont-Regular.{ttf,otf,woff2}
 make proof      # regenerates the PNG proof sheet
 make specimen   # opens specimen/index.html
 ```

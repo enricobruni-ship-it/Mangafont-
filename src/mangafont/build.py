@@ -45,19 +45,48 @@ def build_glyphs():
     return order, glyf, metrics
 
 
-def build(out_dir="build"):
-    order, glyf, metrics = build_glyphs()
+def to_otf(ttf, out_path, order, metrics):
+    """Derive a CFF/OpenType build from the finished TrueType outlines.
 
-    fb = FontBuilder(G.UPM, isTTF=True)
+    The overlaps are already booleaned away at this point, so this only has
+    to change curve flavour (quadratic -> cubic) and winding: PostScript
+    wants outer contours counter-clockwise, the opposite of TrueType.
+    """
+    from fontTools.pens.t2CharStringPen import T2CharStringPen
+    from fontTools.pens.qu2cuPen import Qu2CuPen
+
+    glyph_set = ttf.getGlyphSet()
+    charstrings = {}
+    for name in order:
+        t2 = T2CharStringPen(metrics[name][0], None)
+        pen = Qu2CuPen(t2, max_err=0.5, reverse_direction=True, all_cubic=True)
+        glyph_set[name].draw(pen)
+        charstrings[name] = t2.getCharString()
+
+    fb = FontBuilder(G.UPM, isTTF=False)
     fb.setupGlyphOrder(order)
     fb.setupCharacterMap(G.CMAP)
-    fb.setupGlyf(glyf)
+    ps = "%s-%s" % (FAMILY, STYLE)
+    fb.setupCFF(ps, {
+        "version": VERSION,
+        "FullName": "%s %s" % (FAMILY, STYLE),
+        "FamilyName": FAMILY,
+        "Weight": STYLE,
+    }, charstrings, {})
     fb.setupHorizontalMetrics(metrics)
     fb.setupHorizontalHeader(ascent=G.ASCENDER, descent=G.DESCENDER,
                              lineGap=120)
+    fb.setupNameTable(_names())
+    fb.setupOS2(**_os2())
+    fb.setupPost(isFixedPitch=0, underlinePosition=-150,
+                 underlineThickness=90)
+    fb.font.save(out_path)
+    return out_path
 
+
+def _names():
     ps = "%s-%s" % (FAMILY, STYLE)
-    fb.setupNameTable({
+    return {
         "familyName": FAMILY,
         "styleName": STYLE,
         "uniqueFontIdentifier": "%s; %s" % (ps, VERSION),
@@ -72,8 +101,11 @@ def build(out_dir="build"):
             "This Font Software is licensed under the SIL Open Font "
             "License, Version 1.1."),
         "licenseInfoURL": "https://scripts.sil.org/OFL",
-    })
-    fb.setupOS2(
+    }
+
+
+def _os2():
+    return dict(
         sTypoAscender=G.ASCENDER, sTypoDescender=G.DESCENDER,
         sTypoLineGap=120, usWinAscent=G.ASCENDER, usWinDescent=-G.DESCENDER,
         sxHeight=G.XH, sCapHeight=G.CAP,
@@ -82,6 +114,21 @@ def build(out_dir="build"):
                     bProportion=3, bContrast=0, bStrokeVariation=0,
                     bArmStyle=0, bLetterForm=0, bMidline=0, bXHeight=0),
     )
+
+
+def build(out_dir="build"):
+    order, glyf, metrics = build_glyphs()
+
+    fb = FontBuilder(G.UPM, isTTF=True)
+    fb.setupGlyphOrder(order)
+    fb.setupCharacterMap(G.CMAP)
+    fb.setupGlyf(glyf)
+    fb.setupHorizontalMetrics(metrics)
+    fb.setupHorizontalHeader(ascent=G.ASCENDER, descent=G.DESCENDER,
+                             lineGap=120)
+
+    fb.setupNameTable(_names())
+    fb.setupOS2(**_os2())
     fb.setupPost(isFixedPitch=0, underlinePosition=-150,
                  underlineThickness=90)
 
@@ -102,11 +149,14 @@ def build(out_dir="build"):
     ttf = os.path.join(out_dir, "%s-%s.ttf" % (FAMILY, STYLE))
     font.save(ttf)
 
+    otf = to_otf(font, os.path.join(out_dir, "%s-%s.otf" % (FAMILY, STYLE)),
+                 order, metrics)
+
     font.flavor = "woff2"
     woff2 = os.path.join(out_dir, "%s-%s.woff2" % (FAMILY, STYLE))
     font.save(woff2)
 
-    return ttf, woff2, merged, len(order)
+    return ttf, otf, woff2, merged, len(order)
 
 
 def _set_overlap_flag(font):
@@ -119,7 +169,8 @@ def _set_overlap_flag(font):
 
 
 if __name__ == "__main__":
-    ttf, woff2, merged, n = build()
+    ttf, otf, woff2, merged, n = build()
     print("%s  (%d glyphs, overlaps %s)"
           % (ttf, n, "merged" if merged else "flagged only"))
-    print(woff2)
+    for f in (otf, woff2):
+        print(f)
