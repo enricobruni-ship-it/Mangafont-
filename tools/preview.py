@@ -75,7 +75,7 @@ def write_png(path, W, H, gray):
 
 
 def sheet(path, names, cols=13, cell=96, scale=None, show_box=True):
-    scale = scale or cell / 1100.0
+    scale = scale or cell / 1150.0
     rows = (len(names) + cols - 1) // cols
     W, H = cols * cell, rows * cell
     px = [255] * (W * H)

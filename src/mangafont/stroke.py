@@ -38,56 +38,54 @@ PROFILES = {
     # flat ribbon, no modulation
     "uniform":   [(0.00, 1.00), (1.00, 1.00)],
 
-    # 横画 -- horizontal.  Angled press at the entry (起筆), a thin waist,
-    # then a swell into the blunt stop (終筆).
-    "yoko":      [(0.00, 1.26), (0.09, 0.92), (0.46, 0.80),
-                  (0.80, 0.92), (0.94, 1.16), (1.00, 1.24)],
+    # 横画 -- the horizontal.  In Mincho this is a HAIRLINE: roughly a
+    # third the weight of a stem.  It lands with a heavy angled press
+    # (起筆), runs thin, and thickens into the stop that carries the
+    # uroko.  The press is what keeps a 40-unit stroke from looking weak.
+    "yoko":      [(0.00, 1.55), (0.10, 0.94), (0.48, 0.86),
+                  (0.84, 0.98), (1.00, 1.28)],
 
-    # 縦画 -- vertical, ending in a blunt 垂露 stop.
-    "tate":      [(0.00, 1.26), (0.09, 0.99), (0.55, 0.90),
-                  (0.88, 1.00), (1.00, 1.10)],
+    # a horizontal that dies into a stem (an inner bar of 目, the left
+    # end of a crossbar) -- pressed entry, no swollen stop.
+    "yoko_in":   [(0.00, 1.50), (0.11, 0.94), (0.60, 0.88), (1.00, 0.94)],
 
-    # 懸針 -- vertical that tapers off the page to a needle point.
-    "tate_tail": [(0.00, 1.34), (0.10, 1.02), (0.55, 0.90),
-                  (0.84, 0.52), (1.00, 0.04)],
+    # 縦画 -- the vertical.  Heavy and near-even; the head flares (起筆)
+    # and the foot swells into the 垂露 stop.
+    "tate":      [(0.00, 1.34), (0.07, 1.01), (0.55, 0.95),
+                  (0.90, 1.02), (1.00, 1.12)],
 
-    # はね -- any stroke finishing in an upward flick.
-    "hane":      [(0.00, 1.30), (0.09, 0.99), (0.58, 0.94),
-                  (0.80, 0.86), (0.93, 0.46), (1.00, 0.04)],
+    # 懸針 -- a vertical that runs off to a needle point.
+    "tate_tail": [(0.00, 1.34), (0.08, 1.02), (0.50, 0.92),
+                  (0.80, 0.58), (1.00, 0.04)],
 
-    # 左払い -- sweep down to the left, thick to a point.
-    "harai_l":   [(0.00, 1.28), (0.18, 1.02), (0.55, 0.70),
-                  (0.82, 0.38), (1.00, 0.03)],
+    # はね -- the flick.  The taper is late and abrupt, so the hook
+    # reads as a spike rather than a fade.
+    "hane":      [(0.00, 1.34), (0.07, 1.01), (0.62, 0.96),
+                  (0.84, 0.86), (0.94, 0.44), (1.00, 0.03)],
 
-    # 右払い -- sweep down to the right, thin then pressing into a stop.
-    "harai_r":   [(0.00, 0.22), (0.22, 0.52), (0.58, 0.84),
-                  (0.88, 1.14), (1.00, 1.20)],
+    # 左払い -- sweep down-left, pressing early, gone to a point.
+    "harai_l":   [(0.00, 1.20), (0.16, 1.06), (0.46, 0.84),
+                  (0.72, 0.54), (0.90, 0.24), (1.00, 0.02)],
 
-    # 点 -- the dot/tick, a teardrop that grows as the brush lands.
-    "ten":       [(0.00, 0.20), (0.40, 0.88), (0.80, 1.26), (1.00, 1.38)],
+    # 右払い -- sweep down-right, entering thin, pressing into a stop.
+    "harai_r":   [(0.00, 0.16), (0.24, 0.48), (0.60, 0.82),
+                  (0.90, 1.16), (1.00, 1.22)],
 
-    # 折れ -- a stroke that turns a corner (top + side of 口).
-    "ore":       [(0.00, 1.26), (0.09, 0.94), (0.45, 0.88),
-                  (0.80, 0.94), (1.00, 1.10)],
+    # 点 -- the tick: a teardrop that swells as the brush lands.
+    "ten":       [(0.00, 0.16), (0.42, 0.86), (0.82, 1.28), (1.00, 1.42)],
 
-    # 折れ launched off an existing stem (the shoulder of n/m/h/r).  It
-    # starts *inside* another stroke, so it gets no entry press and no
-    # flag -- either would poke out sideways into white space.
-    "arch":      [(0.00, 0.96), (0.25, 0.90), (0.60, 0.88),
-                  (0.85, 0.96), (1.00, 1.10)],
+    # diagonals that meet at a vertex (A, V, W, M, Y).
+    "diag":      [(0.00, 1.12), (0.55, 0.92), (1.00, 0.42)],
 
-    # diagonals of A/V/W/M: press at the top, relax towards the vertex.
-    "diag":      [(0.00, 1.10), (0.60, 0.92), (1.00, 0.48)],
-
-    # a stroke that enters thin (picking up from a previous stroke) and
-    # finishes in a flick -- used for S/s/e.
-    "sori":      [(0.00, 0.38), (0.10, 0.98), (0.40, 0.80),
-                  (0.70, 0.92), (0.90, 0.66), (1.00, 0.04)],
+    # an angular sweep entering thin off a previous stroke and finishing
+    # in a flick -- S, s, e, 2, 3.
+    "sori":      [(0.00, 0.30), (0.09, 0.98), (0.42, 0.82),
+                  (0.72, 0.94), (0.90, 0.60), (1.00, 0.03)],
 }
 
-# Global weight knob.  Glyph sources quote widths in "design units at
-# weight 1.0"; this scales the whole family at once.
-WEIGHT = 1.46
+# Global weight knob.  Glyph sources quote widths in absolute design
+# units; this scales the whole family at once.
+WEIGHT = 1.0
 
 MIN_WIDTH = 5.0      # never let a ribbon collapse to nothing
 MITER_LIMIT = 3.2
@@ -272,35 +270,65 @@ def dedupe_closed(pts, eps=0.9):
     return out
 
 
-# ------------------------------------------------------------- uroko
+# ---------------------------------------------------------- ornaments
 #
-# うろこ ("scale") -- the little triangular flag a brush leaves when it
-# lifts.  On a 横画 it sits above the right-hand stop; on a 縦画 it sits
-# at the top of the entry.  It is the single loudest Mincho/kanji cue,
-# so it gets its own contour rather than being faked in the profile.
+# Mincho terminals are separate wedges of ink, not fattened stroke ends.
+# They are sized in ABSOLUTE font units: a 40-unit hairline has to carry
+# the same 55-unit uroko as anything else, so scaling the ornament off
+# the stroke's own width -- which is what the first version did -- makes
+# it vanish exactly where it matters most.
 
-def uroko(pt, tangent, normal, h, bump, run, forward=True):
-    tip = _add(pt, _mul(normal, h))
-    lean = run * 0.30
-    if forward:
-        peak = _add(_add(tip, _mul(normal, bump)), _mul(tangent, lean))
-        tail = _add(tip, _mul(tangent, run))
-        tri = [tip, peak, tail]
-    else:
-        peak = _sub(_add(tip, _mul(normal, bump)), _mul(tangent, lean))
-        tail = _sub(tip, _mul(tangent, run))
-        tri = [tail, peak, tip]
-    if signed_area(tri) > 0:
-        tri.reverse()
-    return tri
+class Poly:
+    """A bare polygon, used for the terminal ornaments."""
+
+    def __init__(self, pts):
+        self.pts = list(pts)
+
+    def contours(self, tol=1.6):
+        pts = list(self.pts)
+        if signed_area(pts) > 0:
+            pts.reverse()
+        return [pts]
+
+
+def uroko(pt, tangent, normal, h, rise, run):
+    """うろこ -- the scale: the fin a brush leaves at the stop of a 横画.
+
+    A right triangle sitting on the stroke: its upright edge at the very
+    end, its hypotenuse sloping back down along the top of the stroke.
+    """
+    tip = _add(pt, _mul(normal, h - 2.0))
+    peak = _add(tip, _mul(normal, rise))
+    tail = _sub(tip, _mul(tangent, run))
+    return Poly([tail, peak, tip])
+
+
+def kata(x, y, wt, rise=34, drop=30):
+    """肩 -- the shoulder at a 折れ, where a horizontal turns down into a
+    stem.  In 口 and 日 this corner is peaked, not mitred: a small
+    triangle rising to the outer edge of the stem."""
+    half = wt * 0.5
+    return Poly([(x - half - 8, y + 1),
+                 (x + half + 2, y + rise),
+                 (x + half + 2, y - drop)])
+
+
+def kihitsu(x, y, wt, out=26, rise=22, drop=20):
+    """起筆 -- the flared head of a 縦画: the brush lands from the upper
+    left, so the stem wears a small slanted hat on that side."""
+    half = wt * 0.5
+    return Poly([(x - half - out, y + rise * 0.30),
+                 (x - half + 6, y + rise),
+                 (x + half, y + rise * 0.42),
+                 (x + half, y - drop),
+                 (x - half, y - drop * 0.4)])
 
 
 # ----------------------------------------------------------------- Stroke
 
-# Which stroke families carry which terminal flags by default.
-_UROKO_END = {"yoko": (0.42, 1.45), "ore": (0.42, 1.45)}
-_UROKO_START = {"tate": (0.26, 1.05), "tate_tail": (0.26, 1.05),
-                "hane": (0.26, 1.05), "ore": (0.34, 1.20)}
+# Terminal flags per stroke family, in absolute units: (rise, run).
+_UROKO_END = {"yoko": (36, 84)}
+_UROKO_START = {}
 
 
 class Stroke:
@@ -314,14 +342,13 @@ class Stroke:
         self.profile = (PROFILES[profile] if isinstance(profile, str)
                         else profile)
         name = profile if isinstance(profile, str) else ""
-        # Sensible default terminal shears per stroke family.
         if cap_start is None:
-            cap_start = {"yoko": -26.0, "ore": -26.0, "tate": -16.0,
-                         "tate_tail": -16.0, "hane": -16.0,
-                         "harai_l": -24.0, "ten": -22.0}.get(name, 0.0)
+            cap_start = {"yoko": -20.0, "yoko_in": -20.0, "tate": -16.0,
+                         "tate_tail": -20.0, "hane": -20.0,
+                         "harai_l": -26.0, "ten": -24.0}.get(name, 0.0)
         if cap_end is None:
-            cap_end = {"yoko": -12.0, "harai_r": -30.0,
-                       "ten": 24.0}.get(name, 0.0)
+            cap_end = {"yoko": -10.0, "harai_r": -32.0,
+                       "ten": 26.0}.get(name, 0.0)
         self.cap_start = cap_start
         self.cap_end = cap_end
         self.uroko_end = (_UROKO_END.get(name) if uroko_end is None
@@ -340,32 +367,23 @@ class Stroke:
         out = [body]
 
         # A flag only belongs where the brush was actually travelling
-        # along a horizontal (the 横画 stop) or straight down (the 縦画
-        # entry).  An arch that launches upwards, as in n/m/h/r, would
-        # otherwise sprout a barb into empty space.
-        if self.uroko_end:
+        # along a horizontal.
+        if self.uroko_end and self.uroko_end[0]:
             d = _unit(_sub(pts[-1], pts[-2]))
             if d[0] > 0.90:
-                bump, run = self.uroko_end
+                rise, run = self.uroko_end
                 h = max(widths[-1], MIN_WIDTH) * 0.5
-                out.append(uroko(pts[-1], d, _perp(d), h,
-                                 h * bump, h * run, forward=False))
-        if self.uroko_start:
-            d = _unit(_sub(pts[1], pts[0]))
-            if d[0] > 0.90 or d[1] < -0.90:
-                bump, run = self.uroko_start
-                h = max(widths[0], MIN_WIDTH) * 0.5
-                out.append(uroko(pts[0], d, _perp(d), h,
-                                 h * bump, h * run, forward=True))
+                out.extend(uroko(pts[-1], d, _perp(d), h, rise, run)
+                           .contours(tol))
         return out
 
-    # Back-compat single-contour accessor (body only).
     def contour(self, tol=1.6):
         return self.contours(tol)[0]
 
 
-def contours(strokes, tol=1.6):
+def contours(items, tol=1.6):
+    """Flatten strokes and ornaments alike into a list of contours."""
     out = []
-    for s in strokes:
-        out.extend(s.contours(tol))
+    for item in items:
+        out.extend(item.contours(tol))
     return out
