@@ -150,7 +150,22 @@ the OTF is the CFF/PostScript build with cubic curves.
 | Mangafont Regular | [ttf](build/Mangafont-Regular.ttf) | [otf](build/Mangafont-Regular.otf) | [woff2](build/Mangafont-Regular.woff2) |
 | Mangafont Bold | [ttf](build/Mangafont-Bold.ttf) | [otf](build/Mangafont-Bold.otf) | [woff2](build/Mangafont-Bold.woff2) |
 
-On GitHub, open the file and use the **Download raw file** button.
+Or take the lot in one go: **[`build/Mangafont.zip`](build/Mangafont.zip)** —
+all four cuts in all three formats, plus install notes and the licence.
+
+On GitHub, open a file and use the **Download raw file** button.
+
+### Installing
+
+Install the four **TTF**s; they group into the two families above, with bold
+linking, so ⌘B works. The OTFs are the same outlines in CFF form — take one
+set or the other, not both.
+
+- **macOS** — select all four, double-click, then *Install Font*.
+- **Windows** — select all four, right-click, *Install for all users*.
+- **Linux** — copy to `~/.local/share/fonts/`, then `fc-cache -f -v`.
+
+Restart any app that was already open; most only scan fonts at launch.
 
 ## Building
 
