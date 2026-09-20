@@ -6,4 +6,14 @@ build/*
 !build/Mangafont-Regular.ttf
 !build/Mangafont-Regular.otf
 !build/Mangafont-Regular.woff2
+!build/Mangafont-Bold.ttf
+!build/Mangafont-Bold.otf
+!build/Mangafont-Bold.woff2
+!build/MangafontText-Regular.ttf
+!build/MangafontText-Regular.otf
+!build/MangafontText-Regular.woff2
+!build/MangafontText-Bold.ttf
+!build/MangafontText-Bold.otf
+!build/MangafontText-Bold.woff2
 !build/proof.png
+!build/weights.png

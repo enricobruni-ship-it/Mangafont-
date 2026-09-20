@@ -102,30 +102,60 @@ left and cut only on the right, which is what keeps the three apart.
 | Cap height | 790 |
 | x-height | 600 — 0.76 of the cap, so lowercase sits in a square |
 | Ascender / descender | 858 / −170 |
-| Stem / horizontal weight | 104 / 46 — a contrast ratio of 0.44 |
+| Stem / horizontal weight | 104 / 46 in the reference cut — contrast 0.44 |
 | Sweep / corner weight | 84 / 70 |
+
+Metrics are identical across all four cuts, so they can be swapped without
+reflowing.
 
 ## Coverage
 
 100 glyphs: A–Z, a–z, 0–9, the whole printable ASCII range, en/em dash, plus
 、 (U+3001) and 。 (U+3002) for when you want the real thing.
 
+## The four cuts
+
+Two families, each with a Regular and a Bold, so ⌘B works inside either:
+
+| Family | Style | Weight | Contrast | For |
+|---|---|---|---|---|
+| **Mangafont Text** | Regular | 400 | 0.60 | body copy, UI, anything small |
+| **Mangafont Text** | Bold | 700 | 0.64 | emphasis in running text |
+| **Mangafont** | Regular | 400 | 0.44 | headlines, signage, packaging |
+| **Mangafont** | Bold | 700 | 0.51 | display at weight |
+
+**Text is an optical size, not a lighter weight.** It is drawn for small
+sizes: lower contrast so the hairlines survive, sturdier terminals, quieter
+pressure modulation and a little more sidebearing. Set a headline in
+Mangafont and the body in Mangafont Text.
+
+Two things deliberately do *not* scale linearly across the axis, because
+they do not in Mincho either:
+
+- **Contrast falls as weight rises.** Holding 0.44 into a bold would leave
+  hairlines that snap at any real size, so the bolds sit at 0.51 and 0.64.
+- **Terminals grow sub-proportionally**, on a 0.72 power law. An うろこ
+  scaled linearly into a bold swallows the letter it sits on.
+
 ## Download
 
-| Format | File | Use |
-|---|---|---|
-| TrueType | [`build/Mangafont-Regular.ttf`](build/Mangafont-Regular.ttf) | installing on Windows, macOS, Linux |
-| OpenType/CFF | [`build/Mangafont-Regular.otf`](build/Mangafont-Regular.otf) | design apps — Illustrator, InDesign, Figma, Affinity |
-| WOFF2 | [`build/Mangafont-Regular.woff2`](build/Mangafont-Regular.woff2) | the web |
+Every cut ships as TTF (install on Windows/macOS/Linux), OTF (design apps —
+Illustrator, InDesign, Affinity) and WOFF2 (the web). Same outlines in each;
+the OTF is the CFF/PostScript build with cubic curves.
 
-On GitHub, open the file and use the **Download raw file** button. Both the
-TTF and the OTF are the same outlines; the OTF is the CFF/PostScript build
-(cubic curves), the TTF is quadratic.
+| | TTF | OTF | WOFF2 |
+|---|---|---|---|
+| Mangafont Text Regular | [ttf](build/MangafontText-Regular.ttf) | [otf](build/MangafontText-Regular.otf) | [woff2](build/MangafontText-Regular.woff2) |
+| Mangafont Text Bold | [ttf](build/MangafontText-Bold.ttf) | [otf](build/MangafontText-Bold.otf) | [woff2](build/MangafontText-Bold.woff2) |
+| Mangafont Regular | [ttf](build/Mangafont-Regular.ttf) | [otf](build/Mangafont-Regular.otf) | [woff2](build/Mangafont-Regular.woff2) |
+| Mangafont Bold | [ttf](build/Mangafont-Bold.ttf) | [otf](build/Mangafont-Bold.otf) | [woff2](build/Mangafont-Bold.woff2) |
+
+On GitHub, open the file and use the **Download raw file** button.
 
 ## Building
 
 ```sh
-make            # builds build/Mangafont-Regular.{ttf,otf,woff2}
+make            # builds all four cuts as .ttf, .otf and .woff2
 make proof      # regenerates the PNG proof sheet
 make specimen   # opens specimen/index.html
 ```
@@ -140,11 +170,13 @@ pip install fonttools brotli skia-pathops
 ## How the code is laid out
 
 ```
+src/mangafont/weights.py  the weight axis: four cuts, one drawing
 src/mangafont/stroke.py   the brush engine: centreline + profile -> contour
 src/mangafont/glyphs.py   every glyph, as a list of strokes
-src/mangafont/build.py    compiles the strokes to TrueType
+src/mangafont/build.py    compiles every cut to TTF, OTF and WOFF2
 tools/preview.py          pure-stdlib rasteriser, for the proof sheets
 tools/render_ttf.py       renders from the compiled .ttf, as an independent check
+tools/compare.py          stacks one string across cuts, for judging the axis
 ```
 
 Glyph sources quote widths in design units at weight 1.0; `stroke.WEIGHT`

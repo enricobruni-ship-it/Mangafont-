@@ -14,6 +14,8 @@ covers -- which is exactly how a CJK glyph's counters come about.
 
 import math
 
+from .weights import DISPLAY
+
 # ---------------------------------------------------------------- vectors
 
 def _sub(a, b):  return (a[0] - b[0], a[1] - b[1])
@@ -83,9 +85,20 @@ PROFILES = {
                   (0.72, 0.94), (0.90, 0.60), (1.00, 0.03)],
 }
 
-# Global weight knob.  Glyph sources quote widths in absolute design
-# units; this scales the whole family at once.
-WEIGHT = 1.0
+# The active cut.  Glyph sources are drawn once, in the units of the
+# reference cut; the Weight carries every stroke into the current one.
+ACTIVE = DISPLAY
+
+
+def set_weight(w):
+    """Switch the cut every subsequent Stroke is built in."""
+    global ACTIVE
+    ACTIVE = w
+
+
+def w_of(width):
+    """A reference-unit width, in the active cut -- for positioning."""
+    return ACTIVE.remap(width)
 
 MIN_WIDTH = 5.0      # never let a ribbon collapse to nothing
 MITER_LIMIT = 3.2
@@ -303,20 +316,27 @@ def uroko(pt, tangent, normal, h, rise, run):
     return Poly([tail, peak, tip])
 
 
-def kata(x, y, wt, rise=34, drop=30):
+def kata(x, y, wt, rise=None, drop=None):
     """肩 -- the shoulder at a 折れ, where a horizontal turns down into a
     stem.  In 口 and 日 this corner is peaked, not mitred: a small
     triangle rising to the outer edge of the stem."""
-    half = wt * 0.5
+    k = ACTIVE.orn_scale
+    rise = 34 * k if rise is None else rise
+    drop = 30 * k if drop is None else drop
+    half = ACTIVE.remap(wt) * 0.5
     return Poly([(x - half - 8, y + 1),
                  (x + half + 2, y + rise),
                  (x + half + 2, y - drop)])
 
 
-def kihitsu(x, y, wt, out=26, rise=22, drop=20):
+def kihitsu(x, y, wt, out=None, rise=None, drop=None):
     """起筆 -- the flared head of a 縦画: the brush lands from the upper
     left, so the stem wears a small slanted hat on that side."""
-    half = wt * 0.5
+    k = ACTIVE.orn_scale
+    out = 26 * k if out is None else out
+    rise = 22 * k if rise is None else rise
+    drop = 20 * k if drop is None else drop
+    half = ACTIVE.remap(wt) * 0.5
     return Poly([(x - half - out, y + rise * 0.30),
                  (x - half + 6, y + rise),
                  (x + half, y + rise * 0.42),
@@ -336,9 +356,15 @@ class Stroke:
 
     def __init__(self, path, width, profile="tate",
                  cap_start=None, cap_end=None, uroko_end=None,
-                 uroko_start=None, scale=1.0):
+                 uroko_start=None, scale=1.0, modulated=True):
         self.path = path
-        self.width = width * scale * WEIGHT
+        # A profile normally describes brush PRESSURE, which the heavier
+        # and text cuts damp via the weight's gain.  A few strokes use the
+        # same mechanism to describe GEOMETRY instead -- a corner
+        # connector that must land on a hairline at one end and a stem at
+        # the other.  Damping those corrupts the joint, so they opt out.
+        self.modulated = modulated
+        self.width = ACTIVE.remap(width * scale)
         self.profile = (PROFILES[profile] if isinstance(profile, str)
                         else profile)
         name = profile if isinstance(profile, str) else ""
@@ -359,7 +385,9 @@ class Stroke:
     def contours(self, tol=1.6):
         pts = flatten(self.path)
         ts = arc_params(pts)
-        widths = [self.width * profile_at(self.profile, t) for t in ts]
+        gain = ACTIVE.gain if self.modulated else 1.0
+        widths = [self.width * (1.0 + (profile_at(self.profile, t) - 1.0) * gain)
+                  for t in ts]
         body = dedupe_closed(simplify(
             ribbon(pts, widths, self.cap_start, self.cap_end), tol))
         if signed_area(body) > 0:         # TrueType wants clockwise outers
@@ -372,8 +400,9 @@ class Stroke:
             d = _unit(_sub(pts[-1], pts[-2]))
             if d[0] > 0.90:
                 rise, run = self.uroko_end
+                k = ACTIVE.orn_scale
                 h = max(widths[-1], MIN_WIDTH) * 0.5
-                out.extend(uroko(pts[-1], d, _perp(d), h, rise, run)
+                out.extend(uroko(pts[-1], d, _perp(d), h, rise * k, run * k)
                            .contours(tol))
         return out
 

@@ -11,7 +11,8 @@ work of making a Latin alphabet read as kana:
     tight, near-uniform side bearings.
 """
 
-from .stroke import Stroke, kata, kihitsu
+from .stroke import Stroke, kata, kihitsu, w_of, ACTIVE
+from . import stroke as _stroke
 
 # ------------------------------------------------------------- metrics
 
@@ -66,7 +67,7 @@ def fold(x0, x1, ytop, ybot, wt=WT, wy=WY):
     Rendered as two strokes because the two halves are different
     weights: that weight change across the corner is the whole point.
     """
-    rx = x1 - wt * 0.5
+    rx = x1 - w_of(wt) * 0.5
     rise = (x1 - x0) * RISE
     return ([yoko(x0, x1, ytop, wy, flag=False)]
             + tate(rx, ytop + rise, ybot, wt, head=False)
@@ -75,29 +76,37 @@ def fold(x0, x1, ytop, ybot, wt=WT, wy=WY):
 
 def box(x0, x1, ybot, ytop, wt=WT, wy=WY):
     """口 -- three strokes: left 竖, 横折, bottom 横."""
-    return (tate(x0 + wt * 0.5, ytop, ybot, wt)
+    return (tate(x0 + w_of(wt) * 0.5, ytop, ybot, wt)
             + fold(x0, x1, ytop, ybot, wt, wy)
             + [yoko(x0, x1, ybot, wy)])
+
+
+# On a cut corner no stroke actually begins, so the ring's bars and stems
+# must not wear a 起筆 press or an end swell there -- that wedge is what
+# shows up as a nub poking off each chamfer.
+FLAT = [(0.00, 0.97), (0.50, 0.93), (1.00, 0.99)]
 
 
 def ring(x0, x1, ybot, ytop, wt=WT, wy=WY, cx=0.20, cy=0.15):
     """A 口 with its corners cut, for O / o / 0 / 8."""
     dx = (x1 - x0) * cx
     dy = (ytop - ybot) * cy
-    lx, rx = x0 + wt * 0.5, x1 - wt * 0.5
+    lx, rx = x0 + w_of(wt) * 0.5, x1 - w_of(wt) * 0.5
     out = []
-    out += tate(lx, ytop - dy, ybot + dy, wt, head=False)
-    out += tate(rx, ytop - dy + 8, ybot + dy, wt, head=False)
+    out += tate(lx, ytop - dy, ybot + dy, wt, FLAT, head=False)
+    out += tate(rx, ytop - dy + 8, ybot + dy, wt, FLAT, head=False)
     rise = (x1 - x0 - 2 * dx) * RISE
-    out.append(yoko(x0 + dx, x1 - dx, ytop, wy, flag=False))
-    out.append(yoko(x0 + dx, x1 - dx, ybot, wy, flag=False))
-    taper = [(0.0, 0.52), (1.0, 1.42)]
+    for y in (ytop, ybot):
+        out.append(Stroke([("M", x0 + dx, y), ("L", x1 - dx, y + rise)],
+                          wy, FLAT, cap_start=0.0, cap_end=0.0,
+                          uroko_end=(0, 0)))
+    taper = [(0.0, w_of(wy) / w_of(wt)), (1.0, 1.0)]
     for a, b in (((x0 + dx + 10, ytop), (lx, ytop - dy - 12)),
                  ((x1 - dx - 10, ytop + rise), (rx, ytop - dy - 12)),
                  ((x0 + dx + 10, ybot), (lx, ybot + dy + 12)),
                  ((x1 - dx - 10, ybot + rise), (rx, ybot + dy + 12))):
         out.append(Stroke([("M", a[0], a[1]), ("L", b[0], b[1])],
-                          WC, taper))
+                          wt, taper, modulated=False))
     return out
 
 
@@ -148,15 +157,16 @@ def _C():
 
 def _D():
     x1, dy = 690, 154
-    rx = x1 - WT * 0.5
-    taper = [(0.0, 0.52), (1.0, 1.42)]
-    return (tate(L + WT * 0.5, CAP, 0)
+    rx = x1 - w_of(WT) * 0.5
+    taper = [(0.0, w_of(WY) / w_of(WT)), (1.0, 1.0)]
+    return (tate(L + w_of(WT) * 0.5, CAP, 0)
             + [yoko(L, x1 - 96, CAP, flag=False),
                yoko(L, x1 - 96, 0, flag=False)]
             + tate(rx, CAP - dy + 6, dy, WT, head=False)
             + [Stroke([("M", x1 - 104, CAP + 4), ("L", rx, CAP - dy - 14)],
-                      WC, taper),
-               Stroke([("M", x1 - 104, 6), ("L", rx, dy + 14)], WC, taper)]
+                      WT, taper, modulated=False),
+               Stroke([("M", x1 - 104, 6), ("L", rx, dy + 14)], WT, taper,
+                      modulated=False)]
             ), ADV
 
 
@@ -323,8 +333,8 @@ LADV = 706
 def _a():
     """A squared bowl whose floor runs past the stem and flicks up."""
     x0, x1 = 72, 556
-    rx = x1 - WT * 0.5
-    return (tate(x0 + WT * 0.5, XH, 14)
+    rx = x1 - w_of(WT) * 0.5
+    return (tate(x0 + w_of(WT) * 0.5, XH, 14)
             + [yoko(x0, x1, XH, flag=False), kata(rx, XH + 14, WT)]
             + tate(rx, XH + 14, 14, WT, head=False)
             + [hane([("M", x0, 12), ("L", 590, 30), ("L", 700, 104)], 58)]
@@ -371,8 +381,8 @@ def _f():
 def _g():
     """The bowl's right stem carries straight on into the descender."""
     x0, x1 = 72, 556
-    rx = x1 - WT * 0.5
-    return (tate(x0 + WT * 0.5, XH, 16)
+    rx = x1 - w_of(WT) * 0.5
+    return (tate(x0 + w_of(WT) * 0.5, XH, 16)
             + [yoko(x0, x1, XH, flag=False), kata(rx, XH + 14, WT),
                hane([("M", rx, XH + 14), ("L", rx - 10, -46),
                      ("L", 366, -162), ("L", 162, -140), ("L", 108, -46)],
@@ -626,11 +636,11 @@ def _exclam():
 
 
 def _question():
-    taper = [(0.0, 0.62), (1.0, 1.30)]
+    taper = [(0.0, w_of(WY) / w_of(WT)), (1.0, 1.0)]
     return ([yoko(104, 536, CAP, flag=False)]
             + tate(486, CAP + 13, 512, WT, head=False)
             + [kata(486, CAP + 13, WT),
-               Stroke([("M", 470, 528), ("L", 330, 384)], WC, taper)]
+               Stroke([("M", 470, 528), ("L", 330, 384)], WT, taper, modulated=False)]
             + tate(324, 404, 222, 90, head=False)
             + [ten(268, 168, 92, -98, 92)]), 604
 
@@ -708,7 +718,7 @@ def _percent():
 
 def _ampersand():
     """A small 口 over a stem, a floor and a sweeping tail."""
-    return (box(200, 512, 424, CAP, 84, WY)
+    return (box(186, 532, 430, CAP, 76, WY)
             + tate(170, 416, 104, 92)
             + [yoko(120, 574, 16),
                harai_r((286, 296), (706, 6), 80)]), 764
@@ -720,7 +730,7 @@ def _at():
             + [yoko(112, 648, 706, 44, flag=False), kata(602, 722, 72)]
             + tate(602, 722, 252, 72, head=False)
             + [yoko(112, 524, 70, 44)]
-            + box(262, 496, 300, 502, 64, 38)), 764
+            + box(246, 516, 288, 516, 58, 36)), 764
 
 
 def _plus():
@@ -798,7 +808,7 @@ def _ideographic_comma():
 
 def _ideographic_full_stop():
     """。"""
-    return ring(330, 590, 70, 330, 54, cx=0.26), 1000
+    return ring(316, 604, 62, 350, 50, cx=0.26), 1000
 
 
 # ---------------------------------------------------------------- table
@@ -854,8 +864,9 @@ _BY_CHAR = {chr(uni): name for name, (_, uni) in _TABLE.items()}
 
 
 def glyph(name):
-    """Return (strokes, advance_width) for a glyph name."""
-    return _TABLE[name][0]()
+    """Return (strokes, advance_width) for a glyph name, in the active cut."""
+    strokes, adv = _TABLE[name][0]()
+    return strokes, adv + _stroke.ACTIVE.adv_pad
 
 
 def char_to_name(ch):
