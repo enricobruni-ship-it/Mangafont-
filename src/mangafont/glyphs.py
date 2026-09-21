@@ -278,15 +278,24 @@ def _f():
 
 
 def _g():
-    """The bowl's right stem carries straight on into the descender."""
+    """Bowl, then a leg that is actually a leg.
+
+    The hard part at display weight: the bowl's floor is a full hairline
+    thick -- 168 units in the heaviest cut -- and it sits on the
+    baseline, so it eats the top of the descender.  Give the leg too
+    little room below that floor and bowl, floor and hook merge into one
+    solid blob with no leg in it at all.  So the floor is drawn thinner
+    than the rest of the lowercase, the leg runs well clear of it before
+    turning, and the hook is tight rather than broad.
+    """
     x0, x1 = 72, 556
     rx = x1 - wall(WT)
     return (tate(x0 + wall(WT), XH, 16)
             + [yoko(x0, x1, XH, flag=False), kata(rx, XH + 14, WT),
-               hane([("M", rx, XH + 14), ("L", rx - 10, -78),
-                     ("L", 352, -196), ("L", 150, -174), ("L", 96, -80)],
-                    WT),
-               yoko(x0, x1 - 34, 16)]), 744
+               yoko(x0, x1 - 40, 16, WY * 0.72),
+               hane([("M", rx, XH + 14), ("L", rx - 16, -214),
+                     ("L", 292, -300), ("L", 132, -264)], WT * 0.96, r=44)]
+            ), 744
 
 
 def _h():
