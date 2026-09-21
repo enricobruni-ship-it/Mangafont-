@@ -1,0 +1,193 @@
+<meta charset="utf-8">
+<title>Mangafont Comic Specimen</title>
+<style>
+__FACES__
+
+@page { size: A4; margin: 16mm 15mm 14mm; }
+
+:root{
+  --ink:#121010; --soft:#4A4340; --mute:#8A8179;
+  --rule:#D6D0C6; --hair:#EAE5DC; --shu:#B0322A;
+  --mono:ui-monospace,"DejaVu Sans Mono",Menlo,monospace;
+  --cm:"Mangafont Comic",serif;
+  --tx:"Mangafont Text",serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:var(--tx); color:var(--ink); font-size:9.6pt;
+     line-height:1.55; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+.page{break-after:page; position:relative; min-height:264mm;}
+.page:last-child{break-after:auto;}
+
+.eyebrow{font-family:var(--mono); font-size:7pt; letter-spacing:.17em;
+         text-transform:uppercase; color:var(--mute); margin:0 0 6pt;}
+h2{font-family:var(--mono); font-size:7.5pt; letter-spacing:.17em;
+   text-transform:uppercase; color:var(--mute); font-weight:500;
+   margin:0 0 9pt; padding-bottom:5pt; border-bottom:.6pt solid var(--rule);}
+h3{font-family:var(--mono); font-size:7pt; letter-spacing:.15em;
+   text-transform:uppercase; color:var(--mute); font-weight:500; margin:0 0 5pt;}
+p{margin:0 0 8pt; max-width:60em;}
+.lead{font-size:11pt; color:var(--soft); max-width:46em;}
+b{font-weight:600;}
+
+.cm{font-family:var(--cm);}
+
+/* ---- cover ---- */
+.cover{display:flex; flex-direction:column; height:246mm;}
+.rule{border-top:1.6pt solid var(--ink); margin-bottom:9pt;}
+.big{font-family:var(--cm); font-size:54pt; line-height:1.05; margin:0;}
+.bigk{font-family:var(--cm); font-size:26pt; line-height:1.3; margin:9pt 0 0;}
+.sp{flex:1;}
+.rows{display:flex; flex-direction:column; gap:9pt;}
+.r{display:flex; align-items:center; gap:14pt; border-top:.6pt solid var(--rule);
+   padding-top:8pt;}
+.rt{flex:0 0 58pt; font-family:var(--mono); font-size:6.8pt;
+    letter-spacing:.13em; text-transform:uppercase; color:var(--mute);}
+.rs{font-family:var(--cm); line-height:1.2;}
+.seal{position:absolute; top:0; right:0; width:46pt; height:46pt;
+      background:var(--shu); color:#fff; border-radius:3pt; display:flex;
+      align-items:center; justify-content:center; font-family:var(--cm);
+      font-size:20pt; transform:rotate(-3deg);}
+
+/* ---- comic page mock ---- */
+.strip{display:grid; grid-template-columns:1fr 1fr; gap:5mm; margin-top:4pt;}
+.panel{border:1.6pt solid var(--ink); background:#fff; position:relative;
+       height:80mm; overflow:hidden; padding:5mm;}
+.panel.wide{grid-column:1 / -1; height:66mm;}
+.balloon{background:#fff; border:1.4pt solid var(--ink); border-radius:12pt;
+         padding:4pt 7pt 5pt; display:inline-block; max-width:84%;
+         font-family:var(--cm); font-size:10.5pt; line-height:1.25;}
+.balloon.r{float:right;}
+.cap{background:#F4F0E6; border:1.1pt solid var(--ink); padding:3.5pt 6pt;
+     font-family:var(--cm); font-size:9.5pt; line-height:1.3;
+     display:inline-block; max-width:80%;}
+.sfx{font-family:var(--cm); font-size:32pt; line-height:1;
+     color:var(--ink); position:absolute;}
+.sfx.big{font-size:44pt;}
+.ghost{position:absolute; inset:0; display:flex; align-items:center;
+       justify-content:center; font-family:var(--cm); font-size:80pt;
+       color:var(--hair); letter-spacing:.06em;}
+
+/* ---- charset ---- */
+.set{font-family:var(--cm); font-size:19pt; line-height:1.75;
+     word-break:break-all; margin:0 0 10pt;}
+.set.k{font-size:18pt; line-height:1.85;}
+
+/* ---- split ---- */
+.cols{display:grid; grid-template-columns:1fr 1fr; gap:16pt;}
+table{border-collapse:collapse; width:100%; font-size:8.8pt;}
+th{font-family:var(--mono); font-size:6.8pt; letter-spacing:.13em;
+   text-transform:uppercase; color:var(--mute); font-weight:500;
+   text-align:left; padding:0 7pt 4pt 0; border-bottom:.6pt solid var(--rule);}
+td{padding:5pt 7pt 5pt 0; border-bottom:.5pt solid var(--hair);
+   vertical-align:baseline; color:var(--soft);}
+.cmp{display:flex; flex-direction:column; gap:7pt; margin-top:6pt;}
+.cmp .row{display:flex; align-items:center; gap:13pt;
+          border-top:.5pt solid var(--hair); padding-top:6pt;}
+.cmp .lb{flex:0 0 74pt; font-family:var(--mono); font-size:6.6pt;
+         letter-spacing:.12em; text-transform:uppercase; color:var(--mute);}
+.br{font-family:"Mangafont Brush",serif;}
+.bl{font-family:"Mangafont Block",serif;}
+
+footer{position:absolute; bottom:0; left:0; right:0;
+       border-top:.5pt solid var(--hair); padding-top:5pt;
+       font-family:var(--mono); font-size:6.6pt; letter-spacing:.1em;
+       text-transform:uppercase; color:var(--mute); display:flex;
+       justify-content:space-between;}
+</style>
+
+<!-- ===================== 1 COVER ===================== -->
+<section class="page cover">
+  <div class="seal">EB</div>
+  <p class="eyebrow">Type specimen · comic lettering · 188 glyphs</p>
+  <div class="rule"></div>
+  <h1 class="big">Mangafont Comic</h1>
+  <p class="bigk">マンガフォント コミック</p>
+  <p class="lead" style="margin-top:13pt">A Latin alphabet drawn in katakana, cut for comic lettering. Its capitals and its lowercase come from two different registers on purpose &mdash; brush above, slab below &mdash; and the katakana come with it, so ラーメン and RAMEN set in one face.</p>
+  <div class="sp"></div>
+  <div class="rows">
+    <div class="r"><span class="rt">Title</span><span class="rs" style="font-size:30pt">TOKYO RONIN</span></div>
+    <div class="r"><span class="rt">Sound fx</span><span class="rs" style="font-size:30pt">KRAKKK!</span></div>
+    <div class="r"><span class="rt">Dialogue</span><span class="rs" style="font-size:15pt">YOU SHOULDN'T HAVE COME HERE.</span></div>
+    <div class="r"><span class="rt">Caption</span><span class="rs" style="font-size:15pt">Later that night, it started to rain again.</span></div>
+    <div class="r"><span class="rt">Katakana</span><span class="rs" style="font-size:26pt">ドーン ・ ラーメン</span></div>
+  </div>
+  <footer><span>Mangafont Comic</span><span>SIL Open Font License 1.1</span><span>1</span></footer>
+</section>
+
+<!-- ===================== 2 IN USE ===================== -->
+<section class="page">
+  <h2>On the page</h2>
+  <p class="lead" style="margin-bottom:9pt">Everything below is set in Mangafont Comic &mdash; balloons, captions, sound effects and signage alike.</p>
+  <div class="strip">
+    <div class="panel">
+      <div class="ghost">東</div>
+      <span class="cap">Rain again. It had been raining for a week.</span>
+      <div style="position:absolute; bottom:5mm; right:5mm;">
+        <span class="balloon">WHERE IS HE?</span>
+      </div>
+    </div>
+    <div class="panel">
+      <span class="balloon">I TOLD YOU. HE DOESN'T COME HERE ANY MORE.</span>
+      <div class="sfx" style="bottom:6mm; left:5mm;">ドーン</div>
+    </div>
+    <div class="panel wide">
+      <div class="sfx big" style="top:9mm; left:8mm;">KRAKKK!</div>
+      <div style="position:absolute; bottom:5mm; right:5mm;">
+        <span class="balloon r">THEN I'LL WAIT.</span>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:9pt">Balloon lettering is traditionally set in capitals, which is why the caps carry the more dramatic register. Captions and narration run in lowercase, where the slab forms keep their counters open at small sizes.</p>
+  <footer><span>Mangafont Comic</span><span>On the page</span><span>2</span></footer>
+</section>
+
+<!-- ===================== 3 CHARACTER SET ===================== -->
+<section class="page">
+  <h2>Character set</h2>
+  <p class="set">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 &amp; @ # $ %<br>. , : ; ! ? ' " ( ) [ ] { } &lt; &gt; / \ | - – — _ ~ ^ ` * + =</p>
+
+  <h2 style="margin-top:12pt">Katakana</h2>
+  <p class="set k">アイウエオカキクケコサシスセソタチツテト<br>ナニヌネノハヒフヘホマミムメモヤユヨラリ<br>ルレロワヲンヰヱ ー ・ 、 。</p>
+  <h3>Voiced and semi-voiced</h3>
+  <p class="set k">ガギグゲゴザジズゼゾダヂヅデドバビブベボ<br>パピプペポ ヴ</p>
+  <h3>Small</h3>
+  <p class="set k">ァィゥェォッャュョヮ</p>
+  <p style="margin-top:8pt">The complete U+30A1–U+30F4 block. Foreign words need all of it: ブルーニ needs ブ, and ティ, ヴィ and ジェ need the small kana.</p>
+  <footer><span>Mangafont Comic</span><span>Character set</span><span>3</span></footer>
+</section>
+
+<!-- ===================== 4 HOW IT IS BUILT ===================== -->
+<section class="page">
+  <h2>Two registers, one face</h2>
+  <p class="lead">The capitals and the lowercase are drawn to different specifications. Caps come from a sumi-brush cut: high contrast, dramatic tapers, large terminal flags. Lowercase comes from a kanji-slab cut: near-monoline, heavy, counters held open.</p>
+  <p style="margin-top:9pt">This is ordinary type practice taken further than usual &mdash; caps are normally drawn a shade lighter than lowercase so the two colours match. The two registers sit together here because their stems were already close: <b>216 against 202</b>. Had they been far apart, the line would read as two fonts sharing it.</p>
+
+  <div class="cmp">
+    <div class="row"><span class="lb">Caps from</span><span class="br" style="font-size:25pt">TOKYO RONIN</span></div>
+    <div class="row"><span class="lb">Lower from</span><span class="bl" style="font-size:25pt">tokyo ronin</span></div>
+    <div class="row"><span class="lb">Together</span><span class="cm" style="font-size:25pt">Tokyo Ronin</span></div>
+  </div>
+
+  <h2 style="margin-top:16pt">Specification</h2>
+  <div class="cols">
+    <table>
+      <tr><th>Measure</th><th>Value</th></tr>
+      <tr><td>Units per em</td><td>1000</td></tr>
+      <tr><td>Cap height</td><td>790</td></tr>
+      <tr><td>x-height</td><td>600 — 0.76 of cap</td></tr>
+      <tr><td>Ascender / descender</td><td>858 / -170</td></tr>
+      <tr><td>Weight class</td><td>800</td></tr>
+    </table>
+    <table>
+      <tr><th>Register</th><th>Stem</th><th>Hairline</th><th>Contrast</th></tr>
+      <tr><td>Capitals — brush</td><td>216</td><td>62</td><td>0.29</td></tr>
+      <tr><td>Lowercase — slab</td><td>202</td><td>168</td><td>0.83</td></tr>
+    </table>
+  </div>
+
+  <h3 style="margin-top:14pt">Stroke overshoot</h3>
+  <p>Both registers let strokes run past their joins rather than stopping at them, by 10 units in the caps and 36 in the lowercase. A large part of why kanji read as kanji at a glance is that strokes cross and stick out; stopping every stroke politely at its junction is what makes a Latin face built on kanji logic look merely decorative.</p>
+  <p>Mangafont Comic covers Latin and katakana, not kanji. A character such as 東 falls back to whatever else is installed, as it does here and in the first panel overleaf.</p>
+  <footer><span>Mangafont Comic</span><span>How it is built</span><span>4</span></footer>
+</section>

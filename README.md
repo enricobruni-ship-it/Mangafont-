@@ -235,6 +235,10 @@ the OTF is the CFF/PostScript build with cubic curves.
 | Mangafont Bold | [ttf](build/Mangafont-Bold.ttf) | [otf](build/Mangafont-Bold.otf) | [woff2](build/Mangafont-Bold.woff2) |
 | Mangafont Comic | [ttf](build/MangafontComic-Regular.ttf) | [otf](build/MangafontComic-Regular.otf) | [woff2](build/MangafontComic-Regular.woff2) |
 
+**[MangafontComic-Specimen.pdf](build/MangafontComic-Specimen.pdf)** — a
+four-page specimen for the comic cut, including a mocked-up comic page with
+balloons, captions and sound effects all set in the face.
+
 **[Mangafont-Specimen.pdf](build/Mangafont-Specimen.pdf)** — a six-page
 specimen document, set throughout in the font, with all four cuts, the full
 character set and Latin/katakana samples. The fonts are embedded, so it
