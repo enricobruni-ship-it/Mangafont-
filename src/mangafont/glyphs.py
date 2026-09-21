@@ -1,141 +1,38 @@
-"""Glyph skeletons.
+"""The Latin alphabet.
 
-Every letter is assembled from the stroke vocabulary of Japanese writing
-and laid into a square the way a kanji is.  Three things do most of the
-work of making a Latin alphabet read as kana:
+Drawn in the stroke vocabulary of katakana -- the script Japanese uses
+for foreign words -- rather than of kanji.  Four things carry the
+resemblance:
 
-  * contrast -- 横画 are hairlines, 縦画 are slabs, at roughly 0.4;
-  * corners -- there are almost no curves in kanji, so every arch and
-    bowl is a 折れ fold with a 肩 shoulder, never a quadratic;
-  * fit -- the glyphs fill the em square, with a very high x-height and
+  * sweeps -- katakana have so few strokes that each runs the width of
+    the square and tapers to a needle, so every diagonal here is a 払い
+    at katakana length, not a short Latin stroke;
+  * the フ turn -- a hairline that meets a hard 肩 corner and sweeps
+    away, which is how フ ア ク ス ヌ マ ワ ラ all begin.  7, 2, Z, z and
+    J are built on it;
+  * contrast -- 横画 are hairlines, 縦画 are slabs, at roughly 0.44;
+  * fit -- the glyphs fill the square, with a very high x-height and
     tight, near-uniform side bearings.
+
+Where a Latin letter has an exact kana or kanji counterpart it is drawn
+as that character: X and x are メ, t is ナ, u is リ, l is レ, I is エ,
+7 is フ, o is ロ.
 """
 
-from .stroke import Stroke, kata, kihitsu, w_of, ACTIVE
+from .stroke import Stroke, kata, kihitsu, w_of
 from . import stroke as _stroke
-
-# ------------------------------------------------------------- metrics
-
-UPM = 1000
-CAP = 790          # cap height / figure height
-XH = 600           # x-height -- 0.76 of cap, so lowercase fills a square
-ASC = 858
-DESC = -170
-ASCENDER = 900
-DESCENDER = -250
-
-WT = 104           # 縦画  the stem
-WY = 46            # 横画  the hairline -- 0.44 of the stem
-WD = 84            # 払い  the sweep
-WC = 70            # corner connectors
-
-RISE = 0.030       # horizontals climb ~1.7 degrees to the right
-
-L, R = 64, 700     # the character face
-ADV = 768
-
-
-# ----------------------------------------------------------- shorthands
-
-def yoko(x0, x1, y, w=WY, prof="yoko", flag=True):
-    """横画 -- a hairline horizontal climbing to the right.
-
-    `flag` is the うろこ at the stop.  It is switched off wherever the
-    stroke turns down into a stem, because that corner wears a 肩
-    instead; carrying both stacks two ornaments on one corner.
-    """
-    return Stroke([("M", x0, y), ("L", x1, y + (x1 - x0) * RISE)], w, prof,
-                  uroko_end=None if flag else (0, 0))
-
-
-def yoko_in(x0, x1, y, w=WY):
-    """A horizontal that dies into a stem: pressed entry, no うろこ."""
-    return yoko(x0, x1, y, w, "yoko_in")
-
-
-def tate(x, ytop, ybot, w=WT, prof="tate", drift=-5, head=True):
-    """縦画 -- a stem, with its flared 起筆 head."""
-    out = [Stroke([("M", x, ytop), ("L", x + drift, ybot)], w, prof)]
-    if head:
-        out.append(kihitsu(x, ytop, w))
-    return out
-
-
-def fold(x0, x1, ytop, ybot, wt=WT, wy=WY):
-    """横折 -- a horizontal turning down into a stem, carrying its 肩.
-
-    Rendered as two strokes because the two halves are different
-    weights: that weight change across the corner is the whole point.
-    """
-    rx = x1 - w_of(wt) * 0.5
-    rise = (x1 - x0) * RISE
-    return ([yoko(x0, x1, ytop, wy, flag=False)]
-            + tate(rx, ytop + rise, ybot, wt, head=False)
-            + [kata(rx, ytop + rise, wt)])
-
-
-def box(x0, x1, ybot, ytop, wt=WT, wy=WY):
-    """口 -- three strokes: left 竖, 横折, bottom 横."""
-    return (tate(x0 + w_of(wt) * 0.5, ytop, ybot, wt)
-            + fold(x0, x1, ytop, ybot, wt, wy)
-            + [yoko(x0, x1, ybot, wy)])
-
-
-# On a cut corner no stroke actually begins, so the ring's bars and stems
-# must not wear a 起筆 press or an end swell there -- that wedge is what
-# shows up as a nub poking off each chamfer.
-FLAT = [(0.00, 0.97), (0.50, 0.93), (1.00, 0.99)]
-
-
-def ring(x0, x1, ybot, ytop, wt=WT, wy=WY, cx=0.20, cy=0.15):
-    """A 口 with its corners cut, for O / o / 0 / 8."""
-    dx = (x1 - x0) * cx
-    dy = (ytop - ybot) * cy
-    lx, rx = x0 + w_of(wt) * 0.5, x1 - w_of(wt) * 0.5
-    out = []
-    out += tate(lx, ytop - dy, ybot + dy, wt, FLAT, head=False)
-    out += tate(rx, ytop - dy + 8, ybot + dy, wt, FLAT, head=False)
-    rise = (x1 - x0 - 2 * dx) * RISE
-    for y in (ytop, ybot):
-        out.append(Stroke([("M", x0 + dx, y), ("L", x1 - dx, y + rise)],
-                          wy, FLAT, cap_start=0.0, cap_end=0.0,
-                          uroko_end=(0, 0)))
-    taper = [(0.0, w_of(wy) / w_of(wt)), (1.0, 1.0)]
-    for a, b in (((x0 + dx + 10, ytop), (lx, ytop - dy - 12)),
-                 ((x1 - dx - 10, ytop + rise), (rx, ytop - dy - 12)),
-                 ((x0 + dx + 10, ybot), (lx, ybot + dy + 12)),
-                 ((x1 - dx - 10, ybot + rise), (rx, ybot + dy + 12))):
-        out.append(Stroke([("M", a[0], a[1]), ("L", b[0], b[1])],
-                          wt, taper, modulated=False))
-    return out
-
-
-def harai_l(p0, p1, w=WD):
-    """左払い -- the sweep down to the left."""
-    return Stroke([("M", p0[0], p0[1]), ("L", p1[0], p1[1])], w, "harai_l")
-
-
-def harai_r(p0, p1, w=WD):
-    """右払い -- the sweep down to the right."""
-    return Stroke([("M", p0[0], p0[1]), ("L", p1[0], p1[1])], w, "harai_r")
-
-
-def ten(x, y, dx=86, dy=-92, w=76):
-    """点 -- the tick."""
-    return Stroke([("M", x, y), ("L", x + dx, y + dy)], w, "ten")
-
-
-def hane(path, w=WT):
-    """A stroke finishing in a sharp はね flick."""
-    return Stroke(path, w, "hane")
+from .pen import (UPM, CAP, XH, ASC, DESC, ASCENDER, DESCENDER,
+                  WT, WY, WD, WC, RISE, L, R, ADV, FLAT,
+                  yoko, yoko_in, tate, fold, box, ring, fusweep, sweep,
+                  nobi, harai_l, harai_r, ten, hane)
 
 
 # ---------------------------------------------------------------- CAPS
 
 def _A():
     return [
-        harai_l((406, CAP), (70, 8)),
-        harai_r((420, CAP - 18), (700, 8)),
+        sweep((406, CAP), (58, 4)),
+        harai_r((424, CAP - 22), (712, 4)),
         yoko(140, 636, 246),                      # crosses and overshoots
     ], ADV
 
@@ -149,10 +46,10 @@ def _B():
 
 
 def _C():
-    """匚"""
+    """匚, finishing with the はね of ヒ."""
     return ([yoko(L, R, CAP)]
             + tate(L + 50, CAP, 40)
-            + [yoko(L, R, 0)]), ADV
+            + [hane([("M", L, 4), ("L", 648, 22), ("L", 716, 104)], 58)]), ADV
 
 
 def _D():
@@ -203,17 +100,17 @@ def _I():
 
 def _J():
     """了"""
-    return [
-        yoko(140, R, CAP),
-        hane([("M", 570, CAP), ("L", 560, 168), ("L", 400, 40),
-              ("L", 190, 60), ("L", 150, 150)], 96),
-    ], 740
+    """フ, carried on into a hook."""
+    rx = R - w_of(WT) * 0.5
+    return ([yoko(140, R, CAP, flag=False), kata(rx, CAP + 17, WT)]
+            + [hane([("M", rx, CAP + 17), ("L", 560, 168), ("L", 396, 38),
+                     ("L", 186, 60), ("L", 144, 152)], 96)]), 740
 
 
 def _K():
     return (tate(150, CAP, 0)
-            + [harai_l((690, CAP - 14), (96, 396), 80),
-               harai_r((166, 442), (700, 8), 88)]), ADV
+            + [sweep((704, CAP - 10), (88, 386), 82),
+               harai_r((160, 446), (714, 2), 88)]), ADV
 
 
 def _L():
@@ -227,8 +124,8 @@ def _L():
 
 def _M():
     return (tate(124, CAP, 0) + tate(752, CAP, 0)
-            + [Stroke([("M", 130, CAP - 20), ("L", 424, 230)], 80, "diag"),
-               Stroke([("M", 746, CAP - 20), ("L", 440, 230)], 80, "diag")]
+            + [sweep((130, CAP - 16), (420, 196), 82),
+               sweep((746, CAP - 16), (444, 196), 82)]
             ), 830
 
 
@@ -258,7 +155,7 @@ def _R():
     return (tate(L + 50, CAP, 0)
             + fold(L, 620, CAP, 404)
             + [yoko(L, 648, 392),
-               harai_r((156, 400), (700, 6), 86)]), ADV
+               harai_r((150, 404), (712, 2), 86)]), ADV
 
 
 def _S():
@@ -284,43 +181,39 @@ def _U():
 
 def _V():
     return [
-        Stroke([("M", 112, CAP), ("L", 372, 14)], 86, "diag"),
-        Stroke([("M", 660, CAP), ("L", 400, 14)], 86, "diag"),
+        sweep((108, CAP), (376, 8), 88),
+        sweep((664, CAP), (396, 8), 88),
     ], ADV
 
 
 def _W():
     return [
-        Stroke([("M", 96, CAP), ("L", 254, 14)], 76, "diag"),
-        Stroke([("M", 430, CAP - 24), ("L", 274, 14)], 76, "diag"),
-        Stroke([("M", 442, CAP - 24), ("L", 604, 14)], 76, "diag"),
-        Stroke([("M", 776, CAP), ("L", 622, 14)], 76, "diag"),
+        sweep((92, CAP), (256, 8), 78),
+        sweep((434, CAP - 20), (272, 8), 78),
+        sweep((442, CAP - 20), (606, 8), 78),
+        sweep((780, CAP), (620, 8), 78),
     ], 872
 
 
 def _X():
     """乂"""
     return [
-        harai_l((684, CAP), (92, 6), 86),
-        harai_r((100, CAP - 16), (684, 6), 86),
+        sweep((694, CAP), (84, 2), 88),
+        harai_r((94, CAP - 12), (694, 2), 88),
     ], ADV
 
 
 def _Y():
     """丫"""
-    return ([Stroke([("M", 116, CAP), ("L", 360, 420)], 82, "diag"),
-             Stroke([("M", 658, CAP), ("L", 414, 420)], 82, "diag")]
+    return ([sweep((112, CAP), (362, 408), 84),
+             sweep((662, CAP), (412, 408), 84)]
             + tate(386, 440, 10, WT, head=False)), ADV
 
 
 def _Z():
     """乙"""
-    return [
-        yoko(96, 684, CAP),
-        Stroke([("M", 650, CAP - 20), ("L", 128, 60)], 84,
-               [(0.0, 0.96), (0.5, 0.84), (1.0, 1.0)]),
-        yoko(76, 700, 0),
-    ], ADV
+    """ス"""
+    return fusweep(96, 690, CAP, 122, 18) + [yoko(76, 704, 0)], ADV
 
 
 # ----------------------------------------------------------- LOWERCASE
@@ -348,10 +241,10 @@ def _b():
 
 
 def _c():
-    """匚"""
+    """匚, with ヒ's flick."""
     return ([yoko(72, 636, XH)]
             + tate(122, XH, 40)
-            + [yoko(72, 646, 0)]), 690
+            + [hane([("M", 72, 4), ("L", 596, 22), ("L", 664, 100)], 54)]), 690
 
 
 def _d():
@@ -412,8 +305,8 @@ def _j():
 
 def _k():
     return (tate(150, ASC, 0)
-            + [harai_l((620, XH - 6), (96, 288), 76),
-               harai_r((158, 328), (636, 6), 82)]), 672
+            + [sweep((636, XH - 2), (88, 278), 78),
+               harai_r((152, 332), (648, 2), 82)]), 672
 
 
 def _l():
@@ -494,32 +387,32 @@ def _u():
 
 def _v():
     return [
-        Stroke([("M", 108, XH), ("L", 318, 12)], 80, "diag"),
-        Stroke([("M", 580, XH), ("L", 344, 12)], 80, "diag"),
+        sweep((104, XH), (322, 6), 82),
+        sweep((584, XH), (340, 6), 82),
     ], 694
 
 
 def _w():
     return [
-        Stroke([("M", 92, XH), ("L", 228, 12)], 70, "diag"),
-        Stroke([("M", 382, XH - 18), ("L", 246, 12)], 70, "diag"),
-        Stroke([("M", 394, XH - 18), ("L", 532, 12)], 70, "diag"),
-        Stroke([("M", 686, XH), ("L", 550, 12)], 70, "diag"),
+        sweep((88, XH), (230, 6), 72),
+        sweep((386, XH - 14), (244, 6), 72),
+        sweep((394, XH - 14), (534, 6), 72),
+        sweep((690, XH), (548, 6), 72),
     ], 786
 
 
 def _x():
     """乂"""
     return [
-        harai_l((600, XH), (94, 6), 80),
-        harai_r((100, XH - 14), (600, 6), 80),
+        sweep((610, XH), (86, 2), 82),
+        harai_r((94, XH - 10), (610, 2), 82),
     ], 700
 
 
 def _y():
     """メ, with the second sweep carrying on into the descender."""
     return [
-        Stroke([("M", 108, XH), ("L", 372, 150)], 80, "diag"),
+        sweep((104, XH), (376, 140), 82),
         hane([("M", 606, XH), ("L", 300, -46), ("L", 150, -152),
               ("L", 40, -120)], 82),
     ], 700
@@ -527,12 +420,8 @@ def _y():
 
 def _z():
     """乙"""
-    return [
-        yoko(88, 610, XH),
-        Stroke([("M", 580, XH - 18), ("L", 126, 58)], 78,
-               [(0.0, 0.96), (0.5, 0.84), (1.0, 1.0)]),
-        yoko(70, 636, 0),
-    ], 700
+    """ス at x-height."""
+    return fusweep(88, 616, XH, 116, 16) + [yoko(70, 640, 0)], 700
 
 
 # -------------------------------------------------------------- FIGURES
@@ -547,17 +436,17 @@ def _zero():
 def _one():
     """A stem with its entry tick and a 工 foot."""
     return (tate(382, CAP, 14)
-            + [harai_l((378, CAP - 10), (196, 590), 72),
+            + [sweep((382, CAP - 6), (186, 578), 74),
                yoko(140, 640, 0)]), FADV
 
 
 def _two():
-    return ([yoko(128, 636, CAP)]
-            + tate(586, CAP + 16, 470, WT, head=False)
-            + [kata(586, CAP + 16, WT),
-               Stroke([("M", 566, 468), ("L", 140, 70)], 82,
-                      [(0.0, 0.94), (0.5, 0.84), (1.0, 1.0)]),
-               yoko(96, 676, 0)]), FADV
+    """ス, but the knee drops into a stem first -- otherwise 2 and Z
+    come out as the same drawing."""
+    rx = 648 - w_of(WT) * 0.5
+    return ([yoko(128, 648, CAP, flag=False), kata(rx, CAP + 16, WT)]
+            + tate(rx, CAP + 16, 468, WT, head=False)
+            + [sweep((rx - 8, 470), (146, 30), 84), yoko(96, 680, 0)]), FADV
 
 
 def _three():
@@ -570,7 +459,7 @@ def _three():
 
 
 def _four():
-    return ([harai_l((470, CAP), (104, 262), 78),
+    return ([sweep((486, CAP), (96, 252), 80),
              yoko(76, 700, 250)]
             + tate(490, CAP, 12)), FADV
 
@@ -584,17 +473,13 @@ def _five():
 
 
 def _six():
-    return ([harai_l((606, CAP - 6), (188, 300), 84)]
+    return ([sweep((622, CAP - 2), (178, 288), 86)]
             + ring(150, 646, 0, 404, 92, cx=0.24)), FADV
 
 
 def _seven():
-    return [
-        yoko(96, 684, CAP),
-        Stroke([("M", 636, CAP - 18), ("L", 366, 12)], 84,
-               [(0.0, 1.0), (0.6, 0.86), (1.0, 0.50)]),
-        yoko(232, 520, 430),
-    ], FADV
+    """フ -- the figure seven simply is this katakana."""
+    return fusweep(96, 690, CAP, 330, 8) + [yoko(228, 524, 424)], FADV
 
 
 def _eight():
@@ -679,7 +564,7 @@ def _parenright():
 
 
 def _slash():
-    return [harai_l((520, 850), (120, -210), 76)], 640
+    return [sweep((526, 856), (114, -216), 78)], 640
 
 
 def _backslash():
@@ -713,15 +598,15 @@ def _dollar():
 def _percent():
     return (ring(96, 340, 470, CAP, 66, cx=0.24)
             + ring(400, 644, 10, 340, 66, cx=0.24)
-            + [harai_l((620, CAP), (110, 4), 68)]), 740
+            + [sweep((628, CAP), (104, 0), 70)]), 740
 
 
 def _ampersand():
-    """A small 口 over a stem, a floor and a sweeping tail."""
-    return (box(186, 532, 430, CAP, 76, WY)
-            + tate(170, 416, 104, 92)
-            + [yoko(120, 574, 16),
-               harai_r((286, 296), (706, 6), 80)]), 764
+    """A small 口 over a stem, a floor, and a tail that sweeps away."""
+    return (box(196, 528, 436, CAP, 76, WY)
+            + [hane([("M", 246, 430), ("L", 226, 96), ("L", 470, 18),
+                     ("L", 596, 104)], 88)]
+            + [harai_r((330, 322), (714, 4), 80)]), 764
 
 
 def _at():
@@ -858,6 +743,12 @@ _TABLE = {
     "ideographicfullstop": (_ideographic_full_stop, 0x3002),
 }
 
+from . import katakana as _kana                                  # noqa: E402
+
+_KANA_NAMES = set(_kana.TABLE)
+for _n, (_fn, _uni) in _kana.TABLE.items():
+    _TABLE[_n] = (_fn, _uni)
+
 ALL_NAMES = list(_TABLE.keys())
 CMAP = {uni: name for name, (_, uni) in _TABLE.items()}
 _BY_CHAR = {chr(uni): name for name, (_, uni) in _TABLE.items()}
@@ -865,6 +756,9 @@ _BY_CHAR = {chr(uni): name for name, (_, uni) in _TABLE.items()}
 
 def glyph(name):
     """Return (strokes, advance_width) for a glyph name, in the active cut."""
+    if name in _KANA_NAMES:
+        # Kana are full-width by definition: one em, no weight padding.
+        return _TABLE[name][0](), _kana.KADV
     strokes, adv = _TABLE[name][0]()
     return strokes, adv + _stroke.ACTIVE.adv_pad
 

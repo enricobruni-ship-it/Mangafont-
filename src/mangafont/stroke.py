@@ -79,6 +79,18 @@ PROFILES = {
     # diagonals that meet at a vertex (A, V, W, M, Y).
     "diag":      [(0.00, 1.12), (0.55, 0.92), (1.00, 0.42)],
 
+    # 払い, katakana length.  The signature stroke of ノ ソ ク ス メ:
+    # presses early, then runs a long way out to a needle point.  Much
+    # more dramatic than the kanji sweep, because katakana have so few
+    # strokes that each one has to carry the character.
+    "sweep":     [(0.00, 1.06), (0.12, 1.14), (0.40, 0.94),
+                  (0.66, 0.62), (0.87, 0.26), (1.00, 0.02)],
+
+    # the rising stroke of シ ン ミ: enters thin at the foot, presses as
+    # it climbs, flicks off at the top.
+    "nobi":      [(0.00, 0.20), (0.40, 0.72), (0.80, 1.10),
+                  (0.93, 0.80), (1.00, 0.08)],
+
     # an angular sweep entering thin off a previous stroke and finishing
     # in a flick -- S, s, e, 2, 3.
     "sori":      [(0.00, 0.30), (0.09, 0.98), (0.42, 0.82),
@@ -408,6 +420,35 @@ class Stroke:
 
     def contour(self, tol=1.6):
         return self.contours(tol)[0]
+
+
+def transform(items, sx=1.0, sy=1.0, dx=0.0, dy=0.0, wmul=1.0):
+    """Scale and shift a set of strokes.
+
+    Used to derive the small kana (ァィゥェォッャュョ) from their full-size
+    forms.  Stroke weight is scaled separately and much less than the
+    geometry, because a small kana that thinned proportionally would look
+    like a different, lighter font sitting inside the line -- real
+    families keep small kana nearly full weight.
+    """
+    import copy as _copy
+    out = []
+    for item in items:
+        if isinstance(item, Poly):
+            out.append(Poly([(x * sx + dx, y * sy + dy) for x, y in item.pts]))
+            continue
+        path = []
+        for cmd in item.path:
+            nums = list(cmd[1:])
+            for i in range(0, len(nums), 2):
+                nums[i] = nums[i] * sx + dx
+                nums[i + 1] = nums[i + 1] * sy + dy
+            path.append((cmd[0],) + tuple(nums))
+        clone = _copy.copy(item)
+        clone.path = path
+        clone.width = item.width * wmul
+        out.append(clone)
+    return out
 
 
 def contours(items, tol=1.6):

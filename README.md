@@ -9,10 +9,34 @@ terminals and the counters of hiragana, katakana and kanji.
 
 ![specimen](build/proof.png)
 
+## Why katakana
+
+Japanese has three scripts and uses them for different jobs. **Katakana is
+the one for foreign words** — ラーメン, コーヒー, エンリコ・ブルーニ. So a
+Latin alphabet meant to read as Japanese should be drawn as *katakana*, not
+as kanji: katakana is what a Japanese reader's eye already associates with
+foreign text.
+
+That changes the drawing, not just the flavour:
+
+| Katakana | Kanji |
+|---|---|
+| 1–4 strokes, sparse and open | often 10–20, dense |
+| **ロ is the only closed one** | counters everywhere |
+| long 払い sweeps carry the character | short strokes in a packed grid |
+| the **フ** turn-and-sweep is everywhere | rare |
+| detached ticks — ソ シ ツ ミ | strokes meet |
+
 ## The design system
 
 Four things carry the resemblance. Gesture alone does not: a brushy sans is
 still a sans. What makes a Latin alphabet read as kana is structural.
+
+**0. Sweeps.** Katakana have so few strokes that each one has to carry the
+character, so it runs the full width of the square and tapers to a needle.
+Every diagonal here is a 払い at that length — A K M N R V W X Y Z and their
+lowercase — and the **フ** turn (a hairline meeting a hard 肩 corner, then
+sweeping away) builds 7, 2, Z, z and J.
 
 **1. Contrast.** In Mincho a 横画 is a *hairline* and a 縦画 is a *slab* —
 46 units against 104, a ratio of 0.44. This is the single loudest signal in
@@ -71,7 +95,9 @@ them, while verticals stay plumb.
 Some Latin letters have an exact kanji or kana counterpart, and those are
 drawn as the kanji, not as the Latin letter:
 
-- **C**, **c** → 匚 : a top horizontal, then one fold down and along the floor.
+- **X**, **x** → メ. **7** → フ. **2**, **Z**, **z** → ス.
+- **t** → ナ. **u** → リ. **l** → レ. **I** → エ. **o** → ロ.
+- **C**, **c** → 匚, finishing with the はね flick of ヒ.
 - **I** → 工 : slab top and bottom, because the square wants filling.
 - **L** → 乚 : one stroke that turns and flicks up.
 - **T** → 丁 : horizontal, then a vertical down the centre.
@@ -110,8 +136,21 @@ reflowing.
 
 ## Coverage
 
-100 glyphs: A–Z, a–z, 0–9, the whole printable ASCII range, en/em dash, plus
-、 (U+3001) and 。 (U+3002) for when you want the real thing.
+188 glyphs per cut.
+
+- **Latin** — A–Z, a–z, 0–9 and the whole printable ASCII range.
+- **Katakana** — the complete U+30A1–U+30F4 block: all 46 base kana, the
+  voiced (ガ ザ ダ バ ヴ) and semi-voiced (パ ピ プ ペ ポ) forms, the small
+  kana (ァ ィ ゥ ェ ォ ッ ャ ュ ョ), plus ー (chōonpu) and ・ (nakaguro).
+  Foreign words need all of these: ブルーニ needs ブ, ティ and ヴィ need the
+  small kana.
+- Also 、 and 。, en/em dash.
+
+The voiced and small kana are *derived* from the base drawings rather than
+redrawn, so they follow the weight axis and inherit any later correction to
+a base form. Small kana keep nearly full stroke weight while shrinking
+geometrically — scaling weight proportionally would make them read as a
+lighter font sitting inside the line.
 
 ## The four cuts
 
@@ -187,7 +226,9 @@ pip install fonttools brotli skia-pathops
 ```
 src/mangafont/weights.py  the weight axis: four cuts, one drawing
 src/mangafont/stroke.py   the brush engine: centreline + profile -> contour
-src/mangafont/glyphs.py   every glyph, as a list of strokes
+src/mangafont/pen.py      the shared stroke vocabulary and metrics
+src/mangafont/katakana.py the kana -- and the reference the Latin is drawn against
+src/mangafont/glyphs.py   the Latin, as lists of strokes
 src/mangafont/build.py    compiles every cut to TTF, OTF and WOFF2
 tools/preview.py          pure-stdlib rasteriser, for the proof sheets
 tools/render_ttf.py       renders from the compiled .ttf, as an independent check
