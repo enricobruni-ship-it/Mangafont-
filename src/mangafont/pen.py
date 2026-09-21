@@ -5,7 +5,8 @@ Kept apart from the glyph sets so that both the Latin (glyphs.py) and the
 kana (katakana.py) can build on it without importing each other.
 """
 
-from .stroke import Stroke, kata, kihitsu, w_of, transform   # noqa: F401
+from .stroke import (Stroke, kata, kihitsu, w_of, transform,      # noqa: F401
+                     bow, round_corners, curl_tip)
 
 # ------------------------------------------------------------- metrics
 
@@ -103,7 +104,7 @@ def ring(x0, x1, ybot, ytop, wt=WT, wy=WY, cx=0.20, cy=0.15):
     return out
 
 
-def fusweep(x0, x1, ytop, xend, yend, wy=WY, ws=WD, wt=WT):
+def fusweep(x0, x1, ytop, xend, yend, wy=WY, ws=WD, wt=WT, amount=None):
     """フ -- a hairline horizontal that turns a hard corner and sweeps
     away down-left to a point.
 
@@ -115,12 +116,21 @@ def fusweep(x0, x1, ytop, xend, yend, wy=WY, ws=WD, wt=WT):
     cx = x1 - w_of(wt) * 0.5
     return [yoko(x0, x1, ytop, wy, flag=False),
             kata(cx, ytop + rise, wt),
-            Stroke([("M", cx, ytop + rise), ("L", xend, yend)], ws, "sweep")]
+            Stroke(bow((cx, ytop + rise), (xend, yend),
+                       BOW if amount is None else amount), ws, "sweep")]
 
 
-def sweep(p0, p1, w=WD):
-    """払い at katakana length -- ノ."""
-    return Stroke([("M", p0[0], p0[1]), ("L", p1[0], p1[1])], w, "sweep")
+# How much hiragana is let into the katakana structure.  These are the
+# only three knobs: a bow on the long sweeps, rounded corners inside a
+# stroke, and a curl on the flick.
+BOW = 0.052        # 払い bend
+CURVE = 78         # radius of a rounded corner within a stroke
+CURL = 0.19        # how far a はね turns back on itself
+
+
+def sweep(p0, p1, w=WD, amount=BOW):
+    """払い at katakana length -- ノ -- bent like a hiragana stroke."""
+    return Stroke(bow(p0, p1, amount), w, "sweep")
 
 
 def nobi(p0, p1, w=WD):
@@ -143,8 +153,13 @@ def ten(x, y, dx=86, dy=-92, w=76):
     return Stroke([("M", x, y), ("L", x + dx, y + dy)], w, "ten")
 
 
-def hane(path, w=WT):
-    """A stroke finishing in a sharp はね flick."""
-    return Stroke(path, w, "hane")
+def hane(path, w=WT, r=CURVE, curl=CURL):
+    """A stroke that rounds its corners and curls off at the tip.
+
+    Where the katakana version turned a corner and fired straight away,
+    this rolls through the turn and lets the flick curve back -- which is
+    the difference between レ and し.
+    """
+    return Stroke(curl_tip(round_corners(path, r), curl), w, "hane")
 
 

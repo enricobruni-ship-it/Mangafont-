@@ -164,7 +164,8 @@ def _S():
             + tate(160, CAP, 470)
             + [yoko(110, 690, 424)]
             + tate(636, 424, 96, WT, head=False)
-            + [kata(636, 424, WT), yoko(76, 672, 16)]), ADV
+            + [kata(636, 424, WT),
+               hane([("M", 76, 12), ("L", 596, 30), ("L", 700, 116)], 58)]), ADV
 
 
 def _T():
@@ -261,7 +262,7 @@ def _e():
             + tate(558, XH + 16, 336, WT, head=False)
             + [kata(558, XH + 16, WT),
                yoko(72, 640, 322),
-               yoko(72, 650, 6)]), 700
+               hane([("M", 72, 2), ("L", 578, 20), ("L", 668, 98)], 54)]), 700
 
 
 def _f():
@@ -365,7 +366,8 @@ def _s():
             + tate(134, XH, 366)
             + [yoko(84, 606, 328)]
             + tate(556, 328, 74, WT, head=False)
-            + [kata(556, 328, WT), yoko(56, 592, 12)]), 660
+            + [kata(556, 328, WT),
+               hane([("M", 56, 8), ("L", 540, 26), ("L", 632, 106)], 54)]), 660
 
 
 def _t():
@@ -602,11 +604,14 @@ def _percent():
 
 
 def _ampersand():
-    """A small 口 over a stem, a floor, and a tail that sweeps away."""
-    return (box(196, 528, 436, CAP, 76, WY)
-            + [hane([("M", 246, 430), ("L", 226, 96), ("L", 470, 18),
-                     ("L", 596, 104)], 88)]
-            + [harai_r((330, 322), (714, 4), 80)]), 764
+    """The one Latin letter that already wants a 結び: a single stroke
+    that crosses itself, the way あ ま ほ ね ぬ close."""
+    return [
+        hane([("M", 598, 660), ("L", 330, CAP), ("L", 168, 596),
+              ("L", 330, 404), ("L", 566, 236), ("L", 372, 40),
+              ("L", 176, 150), ("L", 214, 300)], 80, r=104, curl=0.24),
+        harai_r((362, 296), (716, 4), 78),
+    ], 764
 
 
 def _at():

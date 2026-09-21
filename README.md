@@ -27,6 +27,31 @@ That changes the drawing, not just the flavour:
 | the **フ** turn-and-sweep is everywhere | rare |
 | detached ticks — ソ シ ツ ミ | strokes meet |
 
+## The hiragana layer
+
+Katakana gives the structure; hiragana gives the hand. The two scripts
+differ in a specific way — katakana are angular fragments of 楷書 radicals,
+hiragana are cursive, from 草書 — so the softening is three named knobs in
+`pen.py`, not a vague blurring:
+
+| Knob | What it does | Hiragana it comes from |
+|---|---|---|
+| `BOW` | bends every long 払い; nothing is dead straight | の く へ |
+| `CURVE` | rounds the corners *inside* a stroke | し つ り |
+| `CURL` | lets a はね turn back on itself instead of firing off | し り |
+
+`CURVE` only reaches corners **within** one stroke. The structural 肩 of a
+折れ is built from two separate strokes, so it stays as sharp as katakana
+wants it — the softening cannot touch the skeleton.
+
+One letter carries a real **結び**, the loop where a hiragana stroke crosses
+itself (あ ま ほ ね ぬ): the ampersand, which is the one Latin character that
+already wanted one.
+
+**The kana keep their own values.** Softened with the Latin's settings, レ
+simply becomes し and ソ becomes ん — so `katakana.py` overrides all three
+knobs down to near zero. A real 払い does bow slightly, so that much stays.
+
 ## The design system
 
 Four things carry the resemblance. Gesture alone does not: a brushy sans is

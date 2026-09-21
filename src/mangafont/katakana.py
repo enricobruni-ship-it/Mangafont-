@@ -11,8 +11,30 @@ weights, so they carry across the whole weight axis for free.
 """
 
 from .stroke import Stroke, kata, kihitsu, transform
-from .pen import (yoko, tate, box, ring, fusweep, sweep, nobi,
-                  harai_l, harai_r, ten, hane, WT, WY, WD, RISE)
+from .pen import (yoko, tate, box, ring, fusweep as _fusweep,
+                  sweep as _sweep, nobi, harai_l, harai_r, ten,
+                  hane as _hane, WT, WY, WD, RISE)
+
+# The Latin is softened toward hiragana -- bowed sweeps, rounded corners,
+# curling flicks.  The kana must NOT be: レ softened that way simply
+# becomes し, and ソ becomes ん.  So the kana keep katakana's own, much
+# crisper values.  A real 払い does bow a little, so the bow stays.
+KANA_BOW = 0.030
+KANA_CURVE = 14
+KANA_CURL = 0.03
+
+
+def sweep(p0, p1, w=WD):
+    return _sweep(p0, p1, w, amount=KANA_BOW)
+
+
+def hane(path, w=WT):
+    return _hane(path, w, r=KANA_CURVE, curl=KANA_CURL)
+
+
+def fusweep(*a, **kw):
+    kw.setdefault("amount", KANA_BOW)
+    return _fusweep(*a, **kw)
 
 # Katakana are full-width: one em, with generous margins.  They sit
 # larger than the Latin, exactly as they do in a real Japanese family.

@@ -422,6 +422,68 @@ class Stroke:
         return self.contours(tol)[0]
 
 
+def bow(p0, p1, amount=0.055):
+    """A straight run, bent into a brush curve.
+
+    Hiragana are cursive -- derived from 草書 -- so nothing in them is
+    dead straight.  The control point is pushed to the RIGHT of travel,
+    which is the way a 払い actually falls: it leaves steeply and only
+    sweeps outward near the end.
+    """
+    d = _sub(p1, p0)
+    n = _perp(_unit(d))
+    mid = _mul(_add(p0, p1), 0.5)
+    c = _add(mid, _mul(n, _hyp(d) * amount))
+    return [("M", p0[0], p0[1]), ("Q", c[0], c[1], p1[0], p1[1])]
+
+
+def round_corners(path, r):
+    """Turn the hard corners inside one stroke into curves.
+
+    This is the し / つ / り gesture: where katakana turns a corner,
+    hiragana rounds it.  It deliberately touches only corners WITHIN a
+    stroke -- the structural 肩 of a 折れ is built from two separate
+    strokes, so it stays as sharp as katakana wants it.
+    """
+    pts = [(path[0][1], path[0][2])]
+    for c in path[1:]:
+        if c[0] != "L":
+            return path                  # leave anything already curved
+        pts.append((c[1], c[2]))
+    if len(pts) < 3:
+        return path
+
+    out = [("M", pts[0][0], pts[0][1])]
+    for i in range(1, len(pts) - 1):
+        a, b, c = pts[i - 1], pts[i], pts[i + 1]
+        d1, d2 = _hyp(_sub(b, a)), _hyp(_sub(b, c))
+        if d1 < 1e-6 or d2 < 1e-6:
+            continue
+        t = min(r, d1 * 0.45, d2 * 0.45)
+        p_in = _add(b, _mul(_unit(_sub(a, b)), t))
+        p_out = _add(b, _mul(_unit(_sub(c, b)), t))
+        out.append(("L", p_in[0], p_in[1]))
+        out.append(("Q", b[0], b[1], p_out[0], p_out[1]))
+    out.append(("L", pts[-1][0], pts[-1][1]))
+    return out
+
+
+def curl_tip(path, amount=0.20):
+    """Bend the last segment so the flick curls over instead of firing
+    off straight -- the way し, り and つ finish."""
+    if len(path) < 2 or path[-1][0] != "L":
+        return path
+    end = (path[-1][1], path[-1][2])
+    prev_cmd = path[-2]
+    prev = (prev_cmd[-2], prev_cmd[-1])
+    d = _sub(end, prev)
+    if _hyp(d) < 1e-6:
+        return path
+    mid = _mul(_add(prev, end), 0.5)
+    c = _add(mid, _mul(_perp(_unit(d)), _hyp(d) * amount))
+    return path[:-1] + [("Q", c[0], c[1], end[0], end[1])]
+
+
 def transform(items, sx=1.0, sy=1.0, dx=0.0, dy=0.0, wmul=1.0):
     """Scale and shift a set of strokes.
 
