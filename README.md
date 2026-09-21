@@ -177,7 +177,27 @@ a base form. Small kana keep nearly full stroke weight while shrinking
 geometrically — scaling weight proportionally would make them read as a
 lighter font sitting inside the line.
 
-## The four cuts
+## Mangafont Comic
+
+A fifth cut, for comic lettering — which is a different job from reading.
+It has to hit hard, survive a speech balloon at print size, and read as
+Japanese at a glance rather than on inspection.
+
+Its **caps and lowercase come from different registers on purpose**: caps
+from a sumi-brush cut (high contrast, dramatic tapers, large flags),
+lowercase from a kanji-slab cut (near-monoline, heavy, open counters). The
+two sit together because their stems were already close, 216 against 202.
+
+Caps and lowercase carrying different weights inside one face is ordinary
+type practice — caps are usually drawn a shade lighter so the two colours
+match. This is the same idea with a wider split. `Weight.lower` holds the
+second spec and `glyph()` draws each letter under the one for its case.
+
+It also leans on **stroke overshoot**: strokes running past their joins
+instead of stopping at them, which is a large part of why kanji read as
+kanji from across a room.
+
+## The four text and display cuts
 
 Two families, each with a Regular and a Bold, so ⌘B works inside either:
 
@@ -213,6 +233,7 @@ the OTF is the CFF/PostScript build with cubic curves.
 | Mangafont Text Bold | [ttf](build/MangafontText-Bold.ttf) | [otf](build/MangafontText-Bold.otf) | [woff2](build/MangafontText-Bold.woff2) |
 | Mangafont Regular | [ttf](build/Mangafont-Regular.ttf) | [otf](build/Mangafont-Regular.otf) | [woff2](build/Mangafont-Regular.woff2) |
 | Mangafont Bold | [ttf](build/Mangafont-Bold.ttf) | [otf](build/Mangafont-Bold.otf) | [woff2](build/Mangafont-Bold.woff2) |
+| Mangafont Comic | [ttf](build/MangafontComic-Regular.ttf) | [otf](build/MangafontComic-Regular.otf) | [woff2](build/MangafontComic-Regular.woff2) |
 
 **[Mangafont-Specimen.pdf](build/Mangafont-Specimen.pdf)** — a six-page
 specimen document, set throughout in the font, with all four cuts, the full

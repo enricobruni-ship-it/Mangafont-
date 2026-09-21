@@ -372,6 +372,17 @@ class Stroke:
                  overshoot=True):
         self.path = path
         self.overshoot = overshoot
+        # Everything a Stroke needs from the cut is captured HERE, at
+        # construction.  Width always was; gain, ornament scale and
+        # overshoot used to be read back at render time, which meant a
+        # stroke built under one cut and drawn under another came out a
+        # chimera -- one cut's widths wearing another's modulation and
+        # flags.  That is exactly what happens in a face whose lowercase
+        # has its own spec, and it left slivers where a mis-sized
+        # ornament failed to meet its stroke.
+        self._gain = ACTIVE.gain
+        self._orn = ACTIVE.orn_scale
+        self._over = getattr(ACTIVE, "overshoot", 0.0)
         # A profile normally describes brush PRESSURE, which the heavier
         # and text cuts damp via the weight's gain.  A few strokes use the
         # same mechanism to describe GEOMETRY instead -- a corner
@@ -398,14 +409,14 @@ class Stroke:
 
     def contours(self, tol=1.6):
         pts = flatten(self.path)
-        over = getattr(ACTIVE, "overshoot", 0.0)
+        over = self._over
         if over and len(pts) > 1 and self.overshoot:
             d0 = _unit(_sub(pts[0], pts[1]))
             d1 = _unit(_sub(pts[-1], pts[-2]))
             pts = ([_add(pts[0], _mul(d0, over))] + pts
                    + [_add(pts[-1], _mul(d1, over))])
         ts = arc_params(pts)
-        gain = ACTIVE.gain if self.modulated else 1.0
+        gain = self._gain if self.modulated else 1.0
         widths = [self.width * (1.0 + (profile_at(self.profile, t) - 1.0) * gain)
                   for t in ts]
         body = dedupe_closed(simplify(
@@ -420,7 +431,7 @@ class Stroke:
             d = _unit(_sub(pts[-1], pts[-2]))
             if d[0] > 0.90:
                 rise, run = self.uroko_end
-                k = ACTIVE.orn_scale
+                k = self._orn
                 h = max(widths[-1], MIN_WIDTH) * 0.5
                 out.extend(uroko(pts[-1], d, _perp(d), h, rise * k, run * k)
                            .contours(tol))

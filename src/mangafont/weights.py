@@ -40,6 +40,12 @@ class Weight:
         self.overshoot = overshoot
         # Per-cut override of the hiragana softening (bow, curve, curl).
         self.soft = soft
+        # An optional second spec used only for the lowercase.  Caps and
+        # lowercase carrying different weights inside one face is normal
+        # type practice -- caps are usually drawn a shade lighter so the
+        # two colours match.  This just allows a larger split than usual,
+        # so one register can serve the caps and another the lowercase.
+        self.lower = None
         self.os2 = os2
         self.bold = bold
         self.panose_weight = panose_weight
@@ -123,4 +129,24 @@ GOTHIC = Weight(
     gain=0.05, orn=0.0, adv_pad=58, overshoot=4, os2=700, bold=True,
     panose_weight=9)
 
-CANDIDATES = [BRUSH, BLOCK, GOTHIC]
+# Brush caps over Block lowercase, exactly as asked.  The stems are
+# close enough (216 against 202) for the two to sit on one line.
+COMIC = Weight(
+    "Mangafont Comic", "Regular", BRUSH.anchors,
+    gain=BRUSH.gain, orn=BRUSH.orn, adv_pad=BRUSH.adv_pad,
+    overshoot=BRUSH.overshoot, os2=800, bold=True, panose_weight=9)
+COMIC.lower = BLOCK
+
+# The alternative: not two registers bolted together but one that takes
+# Brush's dramatic terminals and Block's robustness -- the hairlines
+# lifted far enough to survive, the flags kept large.
+FUSED = Weight(
+    "Mangafont Fused", "Regular", (108, 148, 182, 212),
+    gain=1.00, orn=1.20, adv_pad=70, overshoot=20, os2=700, bold=True,
+    panose_weight=9)
+
+CANDIDATES = [BRUSH, BLOCK, GOTHIC, COMIC, FUSED]
+
+# Shipped alongside the four text/display cuts: the comic face, whose
+# caps and lowercase come from different registers on purpose.
+ALL = ALL + [COMIC]

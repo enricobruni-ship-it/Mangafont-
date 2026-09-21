@@ -17,6 +17,9 @@ build/*
 !build/MangafontText-Bold.woff2
 !build/Mangafont.zip
 !build/Mangafont-Specimen.pdf
+!build/MangafontComic-Regular.ttf
+!build/MangafontComic-Regular.otf
+!build/MangafontComic-Regular.woff2
 !build/proof.png
 !build/weights.png
 !build/kana.png

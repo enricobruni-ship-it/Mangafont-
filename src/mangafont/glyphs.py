@@ -764,13 +764,33 @@ CMAP = {uni: name for name, (_, uni) in _TABLE.items()}
 _BY_CHAR = {chr(uni): name for name, (_, uni) in _TABLE.items()}
 
 
+_LOWER = set("abcdefghijklmnopqrstuvwxyz")
+
+
 def glyph(name):
-    """Return (strokes, advance_width) for a glyph name, in the active cut."""
+    """Return (strokes, advance_width) for a glyph name, in the active cut.
+
+    A cut may carry a second spec for the lowercase (`Weight.lower`); a
+    glyph is then drawn under whichever spec belongs to its case.  Widths
+    are baked in when a Stroke is constructed, so switching the active
+    cut around the call is all it takes.
+    """
     if name in _KANA_NAMES:
         # Kana are full-width by definition: one em, no weight padding.
         return _TABLE[name][0](), _kana.KADV
+
+    cut = _stroke.ACTIVE
+    sub = getattr(cut, "lower", None)
+    if sub is not None and name in _LOWER:
+        _stroke.set_weight(sub)
+        try:
+            strokes, adv = _TABLE[name][0]()
+        finally:
+            _stroke.set_weight(cut)
+        return strokes, adv + sub.adv_pad
+
     strokes, adv = _TABLE[name][0]()
-    return strokes, adv + _stroke.ACTIVE.adv_pad
+    return strokes, adv + cut.adv_pad
 
 
 def char_to_name(ch):
