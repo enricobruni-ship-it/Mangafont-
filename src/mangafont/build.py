@@ -12,6 +12,11 @@ from .stroke import contours as stroke_contours
 
 VERSION = "2.000"
 
+# Rebuilds should be byte-identical when nothing has been redrawn.
+# fontTools stamps head.created/modified from the wall clock, which
+# rewrote every binary on every build and buried real changes in noise.
+EPOCH = 3872800000          # fixed project timestamp
+
 FS_REGULAR = 0x40 | 0x80          # REGULAR + USE_TYPO_METRICS
 FS_BOLD = 0x20 | 0x80             # BOLD + USE_TYPO_METRICS
 
@@ -94,6 +99,8 @@ def _common(fb, w, order, metrics):
                  underlineThickness=int(round(w.stem * 0.8)))
     if w.bold:
         fb.font["head"].macStyle |= 0x01
+    fb.font["head"].created = EPOCH
+    fb.font["head"].modified = EPOCH
 
 
 def to_otf(ttf, out_path, w, order, metrics):

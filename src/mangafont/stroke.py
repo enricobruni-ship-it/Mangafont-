@@ -368,8 +368,10 @@ class Stroke:
 
     def __init__(self, path, width, profile="tate",
                  cap_start=None, cap_end=None, uroko_end=None,
-                 uroko_start=None, scale=1.0, modulated=True):
+                 uroko_start=None, scale=1.0, modulated=True,
+                 overshoot=True):
         self.path = path
+        self.overshoot = overshoot
         # A profile normally describes brush PRESSURE, which the heavier
         # and text cuts damp via the weight's gain.  A few strokes use the
         # same mechanism to describe GEOMETRY instead -- a corner
@@ -396,6 +398,12 @@ class Stroke:
 
     def contours(self, tol=1.6):
         pts = flatten(self.path)
+        over = getattr(ACTIVE, "overshoot", 0.0)
+        if over and len(pts) > 1 and self.overshoot:
+            d0 = _unit(_sub(pts[0], pts[1]))
+            d1 = _unit(_sub(pts[-1], pts[-2]))
+            pts = ([_add(pts[0], _mul(d0, over))] + pts
+                   + [_add(pts[-1], _mul(d1, over))])
         ts = arc_params(pts)
         gain = ACTIVE.gain if self.modulated else 1.0
         widths = [self.width * (1.0 + (profile_at(self.profile, t) - 1.0) * gain)

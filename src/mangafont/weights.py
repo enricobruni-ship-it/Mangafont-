@@ -26,13 +26,20 @@ class Weight:
     REF = (46.0, 70.0, 84.0, 104.0)
 
     def __init__(self, family, style, anchors, gain=1.0, orn=1.0,
-                 adv_pad=0, os2=400, bold=False, panose_weight=5):
+                 adv_pad=0, os2=400, bold=False, panose_weight=5,
+                 overshoot=0.0, soft=None):
         self.family = family
         self.style = style
         self.anchors = tuple(float(a) for a in anchors)
         self.gain = gain          # how much pressure modulation survives
         self.orn = orn            # extra hand on the terminal ornaments
         self.adv_pad = adv_pad    # sidebearing added to every advance
+        # Strokes running past their joins, in design units.  A large
+        # part of why kanji read as kanji is that strokes cross and
+        # stick out instead of stopping politely at the junction.
+        self.overshoot = overshoot
+        # Per-cut override of the hiragana softening (bow, curve, curl).
+        self.soft = soft
         self.os2 = os2
         self.bold = bold
         self.panose_weight = panose_weight
@@ -92,3 +99,28 @@ TEXT_BOLD = Weight(
     gain=0.60, orn=0.92, adv_pad=32, os2=700, bold=True, panose_weight=8)
 
 ALL = [TEXT, TEXT_BOLD, DISPLAY, DISPLAY_BOLD]
+
+
+# --------------------------------------------------- comic candidates
+#
+# Three registers for comic lettering, which needs weight and punch that
+# a reading face does not.  Not in ALL: they are built by
+# tools/directions.py for comparison, and one gets promoted to a proper
+# family once chosen.
+
+BRUSH = Weight(
+    "Mangafont Brush", "Regular", (62, 124, 176, 216),
+    gain=1.40, orn=1.80, adv_pad=28, overshoot=10, os2=700, bold=True,
+    panose_weight=9)
+
+BLOCK = Weight(
+    "Mangafont Block", "Regular", (168, 182, 192, 202),
+    gain=0.14, orn=0.42, adv_pad=40, overshoot=36, os2=700, bold=True,
+    panose_weight=9)
+
+GOTHIC = Weight(
+    "Mangafont Gothic", "Regular", (150, 156, 160, 164),
+    gain=0.05, orn=0.0, adv_pad=30, overshoot=4, os2=700, bold=True,
+    panose_weight=9)
+
+CANDIDATES = [BRUSH, BLOCK, GOTHIC]
