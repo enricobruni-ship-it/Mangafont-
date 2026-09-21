@@ -16,6 +16,7 @@ build/*
 !build/MangafontText-Bold.otf
 !build/MangafontText-Bold.woff2
 !build/Mangafont.zip
+!build/Mangafont-Specimen.pdf
 !build/proof.png
 !build/weights.png
 !build/kana.png

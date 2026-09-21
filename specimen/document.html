@@ -1,0 +1,274 @@
+<meta charset="utf-8">
+<title>Mangafont Specimen</title>
+<style>
+__FACES__
+
+@page { size: A4; margin: 17mm 16mm 15mm; }
+
+:root{
+  --ink:#16130F; --soft:#4B443A; --mute:#8A8176;
+  --rule:#D8D2C6; --hair:#EBE7DE; --shu:#B0322A;
+  --mono:ui-monospace,"DejaVu Sans Mono",Menlo,Consolas,monospace;
+  --mf:"Mangafont",serif;
+  --mft:"Mangafont Text",serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+/* The document is set in the face it is showing.  Only the small
+   annotation labels are neutral, so an annotation can be told apart
+   from a specimen at a glance. */
+body{font-family:var(--mft); color:var(--ink); font-size:9.8pt;
+     line-height:1.55; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+
+.page{break-after:page; position:relative; min-height:262mm;}
+.page:last-child{break-after:auto;}
+
+.eyebrow{font-family:var(--mono); font-size:7pt; letter-spacing:.18em;
+         text-transform:uppercase; color:var(--mute); margin:0 0 6pt;}
+h2{font-family:var(--mono); font-size:7.5pt; letter-spacing:.18em;
+   text-transform:uppercase; color:var(--mute); font-weight:500;
+   margin:0 0 9pt; padding-bottom:5pt; border-bottom:.6pt solid var(--rule);}
+h3{font-family:var(--mono); font-size:7pt; letter-spacing:.15em;
+   text-transform:uppercase; color:var(--mute); font-weight:500; margin:0 0 6pt;}
+p{margin:0 0 8pt; max-width:60em;}
+.lead{font-size:11.2pt; color:var(--soft); max-width:46em;}
+em.t{font-style:normal; color:var(--ink); font-weight:600;}
+
+.mf{font-family:var(--mf);} .mft{font-family:var(--mft);}
+
+/* --- cover --- */
+.cover{display:flex; flex-direction:column; height:244mm;}
+.cover .rule{border-top:1.6pt solid var(--ink); margin-bottom:9pt;}
+.bigname{font-family:var(--mf); font-size:62pt; line-height:1.05; margin:0;}
+.bigkana{font-family:var(--mf); font-size:30pt; line-height:1.3; margin:10pt 0 0;}
+.cover .spacer{flex:1;}
+.cuts{display:grid; grid-template-columns:1fr 1fr; gap:10pt 22pt; margin-top:14pt;}
+.cuts .c{border-top:.6pt solid var(--rule); padding-top:7pt;}
+.cuts .n{font-family:var(--mono); font-size:7pt; letter-spacing:.14em;
+         text-transform:uppercase; color:var(--mute);}
+.cuts .s{font-family:var(--mf); font-size:21pt; line-height:1.25; display:block;
+         margin-top:2pt;}
+.seal{position:absolute; top:0; right:0; width:46pt; height:46pt;
+      background:var(--shu); color:#fff; border-radius:3pt; display:flex;
+      align-items:center; justify-content:center; font-family:var(--mf);
+      font-size:21pt; transform:rotate(-3deg);}
+
+/* --- charset --- */
+.set{font-family:var(--mf); font-size:20pt; line-height:1.85;
+     letter-spacing:.02em; word-break:break-all; margin:0 0 12pt;}
+.set.k{font-size:19pt; line-height:1.9;}
+
+/* --- waterfall --- */
+.wf p{font-family:var(--mft); margin:0 0 7pt;}
+.s34{font-size:34pt; line-height:1.15;} .s24{font-size:24pt; line-height:1.2;}
+.s17{font-size:17pt; line-height:1.3;} .s12{font-size:12pt; line-height:1.4;}
+.s10{font-size:10pt; line-height:1.5;} .s8{font-size:8pt; line-height:1.55;}
+
+/* --- comparisons --- */
+.cols{display:grid; grid-template-columns:1fr 1fr; gap:16pt;}
+.spec-body{font-size:9.8pt; line-height:1.62; text-align:justify;
+           hyphens:auto; margin:0 0 7pt;}
+.tag{font-family:var(--mono); font-size:6.8pt; letter-spacing:.14em;
+     text-transform:uppercase; color:var(--mute); display:block; margin-bottom:5pt;}
+
+table{border-collapse:collapse; width:100%; font-size:9pt;}
+th{font-family:var(--mono); font-size:6.8pt; letter-spacing:.13em;
+   text-transform:uppercase; color:var(--mute); font-weight:500;
+   text-align:left; padding:0 7pt 4pt 0; border-bottom:.6pt solid var(--rule);}
+td{padding:5.5pt 7pt 5.5pt 0; border-bottom:.5pt solid var(--hair);
+   vertical-align:baseline; color:var(--soft);}
+td.g{font-family:var(--mf); font-size:15pt; line-height:1; color:var(--ink); width:30pt;}
+td.k{font-size:13pt; line-height:1; color:var(--ink); width:26pt;}
+
+.use{border-top:.6pt solid var(--rule); padding-top:11pt; margin-top:11pt;}
+.use .l{font-family:var(--mono); font-size:6.8pt; letter-spacing:.14em;
+        text-transform:uppercase; color:var(--mute);}
+.use .b{font-family:var(--mf); display:block; margin-top:3pt;}
+
+footer{position:absolute; bottom:0; left:0; right:0;
+       border-top:.5pt solid var(--hair); padding-top:5pt;
+       font-family:var(--mono); font-size:6.6pt; letter-spacing:.1em;
+       text-transform:uppercase; color:var(--mute); display:flex;
+       justify-content:space-between;}
+</style>
+
+<!-- ============================ 1. COVER ============================ -->
+<section class="page cover">
+  <div class="seal">EB</div>
+  <p class="eyebrow">Type specimen · Version 2.000 · 188 glyphs per cut · set in Mangafont Text</p>
+  <div class="rule"></div>
+  <h1 class="bigname">Mangafont</h1>
+  <p class="bigkana">マンガフォント</p>
+  <p class="lead" style="margin-top:14pt">A Latin alphabet drawn in katakana &mdash; the script Japanese uses for foreign words &mdash; with the katakana themselves in the same face, so ラーメン and RAMEN can be set in one typeface.</p>
+
+  <div class="spacer"></div>
+
+  <div class="cuts">
+    <div class="c"><span class="n">Mangafont Text Regular &nbsp;·&nbsp; contrast 0.60</span><span class="s mft" style="font-weight:400">Enrico Bruni</span></div>
+    <div class="c"><span class="n">Mangafont Text Bold &nbsp;·&nbsp; contrast 0.64</span><span class="s mft" style="font-weight:700">Enrico Bruni</span></div>
+    <div class="c"><span class="n">Mangafont Regular &nbsp;·&nbsp; contrast 0.44</span><span class="s mf" style="font-weight:400">Enrico Bruni</span></div>
+    <div class="c"><span class="n">Mangafont Bold &nbsp;·&nbsp; contrast 0.51</span><span class="s mf" style="font-weight:700">Enrico Bruni</span></div>
+  </div>
+  <footer><span>Mangafont</span><span>SIL Open Font License 1.1</span><span>1</span></footer>
+</section>
+
+<!-- ============================ 2. THE IDEA ========================= -->
+<section class="page">
+  <h2>Why katakana</h2>
+  <p class="lead">Japanese has three scripts and uses them for different jobs. <em class="t">Katakana is the one for foreign words</em> &mdash; ラーメン, コーヒー, エンリコ・ブルーニ. So a Latin alphabet meant to read as Japanese should be drawn as katakana rather than as kanji: katakana is what a Japanese reader's eye already associates with foreign text.</p>
+
+  <p style="margin-top:12pt">That changes the drawing, not only the flavour. Katakana are one to four strokes, sparse and open; ロ is the only one that closes. Kanji are dense, often ten to twenty strokes packed into a grid. A Latin face built on kanji logic comes out as a wall of boxes. Built on katakana logic it comes out sparse, diagonal and open &mdash; which is what this is.</p>
+
+  <h2 style="margin-top:20pt">Four things carry it</h2>
+  <div class="cols">
+    <div>
+      <h3>Sweeps</h3>
+      <p>Katakana have so few strokes that each one must carry the character, so it runs the width of the square and tapers to a needle. Every diagonal here is a 払い at that length &mdash; A K M N R V W X Y Z and their lowercase.</p>
+      <h3 style="margin-top:11pt">The フ turn</h3>
+      <p>A hairline meets a hard 肩 corner and sweeps away. It is how フ ア ク ス ヌ マ ワ ラ all begin, and it builds 7, 2, Z, z and J.</p>
+    </div>
+    <div>
+      <h3>Contrast</h3>
+      <p>A 横画 is a hairline and a 縦画 is a slab &mdash; 46 units against 104 in the display cut, a ratio of 0.44. This is the loudest signal in the script.</p>
+      <h3 style="margin-top:11pt">Fit</h3>
+      <p>The glyphs fill the square. Cap height is 790 of a 1000 em and the x-height is 600 &mdash; 0.76 of the cap, far higher than any Latin face &mdash; so lowercase sits square as kana do.</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top:20pt">Letters drawn as their counterparts</h2>
+  <div class="cols">
+    <table>
+      <tr><th>Latin</th><th>From</th><th>Construction</th></tr>
+      <tr><td class="g">X</td><td class="k">メ</td><td>one 払い crossed by another &mdash; the same character</td></tr>
+      <tr><td class="g">7</td><td class="k">フ</td><td>a hairline meets a 肩 corner and sweeps away</td></tr>
+      <tr><td class="g">Z</td><td class="k">ス</td><td>the same turn, landing on a floor</td></tr>
+      <tr><td class="g">t</td><td class="k">ナ</td><td>a crossbar that runs past its stem</td></tr>
+      <tr><td class="g">u</td><td class="k">リ</td><td>left stem turns along the floor</td></tr>
+    </table>
+    <table>
+      <tr><th>Latin</th><th>From</th><th>Construction</th></tr>
+      <tr><td class="g">l</td><td class="k">レ</td><td>turns at the foot and flicks up</td></tr>
+      <tr><td class="g">I</td><td class="k">エ</td><td>slab top and bottom, holding the square</td></tr>
+      <tr><td class="g">o</td><td class="k">ロ</td><td>the only katakana that closes</td></tr>
+      <tr><td class="g">C</td><td class="k">ヒ</td><td>a 匚, finishing with ヒ's flick</td></tr>
+      <tr><td class="g">n</td><td class="k">冂</td><td>a fold hung on a stem, never an arch</td></tr>
+    </table>
+  </div>
+  <footer><span>Mangafont</span><span>Why katakana</span><span>2</span></footer>
+</section>
+
+<!-- ============================ 3. CHARACTER SET ==================== -->
+<section class="page">
+  <h2>Character set &nbsp;·&nbsp; Latin</h2>
+  <p class="set">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 &amp; @ # $ %<br>. , : ; ! ? ' " ( ) [ ] { } &lt; &gt; / \ | - – — _ ~ ^ ` * + =</p>
+
+  <h2 style="margin-top:14pt">Character set &nbsp;·&nbsp; Katakana</h2>
+  <p class="set k">アイウエオカキクケコサシスセソタチツテト<br>ナニヌネノハヒフヘホマミムメモヤユヨラリ<br>ルレロワヲンヰヱ ー ・ 、 。</p>
+  <h3>Voiced and semi-voiced</h3>
+  <p class="set k">ガギグゲゴザジズゼゾダヂヅデドバビブベボ<br>パピプペポ ヴ</p>
+  <h3>Small</h3>
+  <p class="set k">ァィゥェォッャュョヮ</p>
+
+  <p style="margin-top:10pt">The complete U+30A1–U+30F4 block. Foreign words need all of it: ブルーニ needs ブ, and ティ, ヴィ and ジェ need the small kana. The voiced and small forms are derived from the base drawings rather than redrawn, so they follow the weight axis and inherit any later correction to a base letter.</p>
+  <footer><span>Mangafont</span><span>Character set</span><span>3</span></footer>
+</section>
+
+<!-- ============================ 4. WATERFALL ======================== -->
+<section class="page wf">
+  <h2>Mangafont Text Regular</h2>
+  <p class="s34">Tokyo Night Market</p>
+  <p class="s24">Ramen, gyoza and cold beer</p>
+  <p class="s17">The brush lifts and leaves a flag behind it</p>
+  <p class="s12">Every horizontal climbs about two degrees to the right, as a hand does</p>
+  <p class="s10">Katakana have so few strokes that each one has to carry the character, so it runs the full width of the square and tapers away to a needle point.</p>
+  <p class="s8">Pack my box with five dozen liquor jugs — 0123456789 — waltz, nymph, for quick jigs vex Bud. The quick brown fox jumps over the lazy dog.</p>
+
+  <h2 style="margin-top:18pt">Mangafont Regular &nbsp;·&nbsp; the display cut</h2>
+  <p class="s34 mf">Tokyo Night Market</p>
+  <p class="s17 mf">The same words, with the hairlines let out</p>
+  <p class="s10 mf">At display sizes the contrast can run to 0.44, which is where Mincho keeps it. Below about twelve point those hairlines start to break down, which is what the text cut is for.</p>
+  <footer><span>Mangafont</span><span>Sizes</span><span>4</span></footer>
+</section>
+
+<!-- ============================ 5. IN TEXT ========================== -->
+<section class="page">
+  <h2>Text against display, at reading size</h2>
+  <div class="cols">
+    <div>
+      <span class="tag">Mangafont Text Regular · 9.8 pt</span>
+      <p class="mft spec-body">Katakana is the script Japanese uses for foreign words. A Latin alphabet meant to read as Japanese should therefore be drawn as katakana rather than as kanji, because katakana is what a reader's eye already associates with foreign text.</p>
+      <p class="mft spec-body">That is a structural claim, not a decorative one. Katakana are one to four strokes, sparse and open, and ロ is the only character that closes. A face built on kanji logic comes out dense; built on katakana logic it comes out airy and diagonal.</p>
+      <p class="mft spec-body">The text cut lowers the contrast so the hairlines survive, thickens the terminals, and quiets the pressure modulation. It is an optical size, not a lighter weight.</p>
+    </div>
+    <div>
+      <span class="tag">Mangafont Regular · 9.8 pt</span>
+      <p class="mf spec-body">Katakana is the script Japanese uses for foreign words. A Latin alphabet meant to read as Japanese should therefore be drawn as katakana rather than as kanji, because katakana is what a reader's eye already associates with foreign text.</p>
+      <p class="mf spec-body">That is a structural claim, not a decorative one. Katakana are one to four strokes, sparse and open, and ロ is the only character that closes. A face built on kanji logic comes out dense; built on katakana logic it comes out airy and diagonal.</p>
+      <p class="mf spec-body">The display cut keeps the contrast high, at 0.44. Set large it is the more elegant of the two; set small its horizontals thin out, which is the trade the text cut exists to solve.</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top:18pt">Bold</h2>
+  <div class="cols">
+    <div>
+      <span class="tag">Mangafont Text Bold</span>
+      <p class="mft spec-body" style="font-weight:700">Contrast falls as weight rises, because it does in Mincho too. Holding 0.44 into a bold would leave hairlines that snap at any real size, so the bolds sit at 0.51 and 0.64.</p>
+    </div>
+    <div>
+      <span class="tag">Mangafont Bold</span>
+      <p class="mf spec-body" style="font-weight:700">Terminals grow sub-proportionally, on a 0.72 power law. An うろこ scaled linearly into a bold swallows the letter it is sitting on.</p>
+    </div>
+  </div>
+  <footer><span>Mangafont</span><span>In text</span><span>5</span></footer>
+</section>
+
+<!-- ============================ 6. IN USE =========================== -->
+<section class="page">
+  <h2>Latin and kana, one typeface</h2>
+  <p class="lead">Drawing the kana first is what the Latin was calibrated against. The <em class="t">M</em> of RAMEN and the <em class="t">メ</em> of ラーメン are the same two strokes.</p>
+
+  <div class="use">
+    <span class="l">Signage</span>
+    <span class="b mf" style="font-size:30pt">ラーメン RAMEN</span>
+  </div>
+  <div class="use">
+    <span class="l">Name, both scripts</span>
+    <span class="b mf" style="font-size:24pt">エンリコ・ブルーニ &nbsp; Enrico Bruni</span>
+  </div>
+  <div class="use">
+    <span class="l">Loanwords</span>
+    <span class="b mf" style="font-size:21pt">コーヒー COFFEE ・ ビール BEER ・ パン BREAD</span>
+  </div>
+  <div class="use">
+    <span class="l">Small kana at work</span>
+    <span class="b mf" style="font-size:21pt">ティー TEA ・ ヴィラ VILLA ・ ジェット JET</span>
+  </div>
+  <div class="use">
+    <span class="l">Bold, display</span>
+    <span class="b mf" style="font-size:27pt; font-weight:700">トウキョウ 1985 TOKYO</span>
+  </div>
+  <div class="use">
+    <span class="l">Text cut, mixed running line</span>
+    <span class="b mft" style="font-size:11pt; font-weight:400">Latin and katakana only, not kanji: 東 falls back to another font, as it does here. ラーメン and ビール do not.</span>
+  </div>
+
+  <h2 style="margin-top:20pt">Metrics</h2>
+  <div class="cols">
+    <table>
+      <tr><th>Measure</th><th>Value</th></tr>
+      <tr><td>Units per em</td><td>1000</td></tr>
+      <tr><td>Cap height</td><td>790</td></tr>
+      <tr><td>x-height</td><td>600 &mdash; 0.76 of cap</td></tr>
+      <tr><td>Ascender / descender</td><td>858 / -170</td></tr>
+    </table>
+    <table>
+      <tr><th>Cut</th><th>Stem</th><th>Hairline</th><th>Contrast</th></tr>
+      <tr><td>Text Regular</td><td>96</td><td>58</td><td>0.60</td></tr>
+      <tr><td>Text Bold</td><td>156</td><td>100</td><td>0.64</td></tr>
+      <tr><td>Regular</td><td>104</td><td>46</td><td>0.44</td></tr>
+      <tr><td>Bold</td><td>168</td><td>86</td><td>0.51</td></tr>
+    </table>
+  </div>
+  <p style="margin-top:10pt">Metrics are identical across all four cuts, so they can be swapped without reflowing. Katakana are full-width; the Latin is proportional, as in a real Japanese family.</p>
+  <footer><span>Mangafont</span><span>In use</span><span>6</span></footer>
+</section>
