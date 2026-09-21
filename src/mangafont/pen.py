@@ -31,6 +31,23 @@ ADV = 768
 
 # ----------------------------------------------------------- shorthands
 
+# How much of a heavy cut's extra stroke weight is allowed to eat into
+# the counter rather than spilling outside the frame.
+BLEED = 0.30
+
+
+def wall(wt=WT):
+    """Half-width to position a bowl's wall by.
+
+    Anchoring a stem by its OUTER edge marches it inward as weight rises,
+    so the counter closes: at display weight the lowercase a and e shut
+    completely.  Position by the REFERENCE width instead and let the
+    extra ink spill outside the frame -- which is what a separately drawn
+    bold master does, and why a real bold is not a fattened regular.
+    """
+    return wt * 0.5 + (w_of(wt) - wt) * 0.5 * BLEED
+
+
 def yoko(x0, x1, y, w=WY, prof="yoko", flag=True):
     """横画 -- a hairline horizontal climbing to the right.
 
@@ -61,7 +78,7 @@ def fold(x0, x1, ytop, ybot, wt=WT, wy=WY):
     Rendered as two strokes because the two halves are different
     weights: that weight change across the corner is the whole point.
     """
-    rx = x1 - w_of(wt) * 0.5
+    rx = x1 - wall(wt)
     rise = (x1 - x0) * RISE
     return ([yoko(x0, x1, ytop, wy, flag=False)]
             + tate(rx, ytop + rise, ybot, wt, head=False)
@@ -70,7 +87,7 @@ def fold(x0, x1, ytop, ybot, wt=WT, wy=WY):
 
 def box(x0, x1, ybot, ytop, wt=WT, wy=WY):
     """口 -- three strokes: left 竖, 横折, bottom 横."""
-    return (tate(x0 + w_of(wt) * 0.5, ytop, ybot, wt)
+    return (tate(x0 + wall(wt), ytop, ybot, wt)
             + fold(x0, x1, ytop, ybot, wt, wy)
             + [yoko(x0, x1, ybot, wy)])
 
@@ -85,7 +102,7 @@ def ring(x0, x1, ybot, ytop, wt=WT, wy=WY, cx=0.20, cy=0.15):
     """A 口 with its corners cut, for O / o / 0 / 8."""
     dx = (x1 - x0) * cx
     dy = (ytop - ybot) * cy
-    lx, rx = x0 + w_of(wt) * 0.5, x1 - w_of(wt) * 0.5
+    lx, rx = x0 + wall(wt), x1 - wall(wt)
     out = []
     out += tate(lx, ytop - dy, ybot + dy, wt, FLAT, head=False)
     out += tate(rx, ytop - dy + 8, ybot + dy, wt, FLAT, head=False)
@@ -113,7 +130,7 @@ def fusweep(x0, x1, ytop, xend, yend, wy=WY, ws=WD, wt=WT, amount=None):
     the corner -- hairline in, 肩 at the knee, sweep out.
     """
     rise = (x1 - x0) * RISE
-    cx = x1 - w_of(wt) * 0.5
+    cx = x1 - wall(wt)
     return [yoko(x0, x1, ytop, wy, flag=False),
             kata(cx, ytop + rise, wt),
             Stroke(bow((cx, ytop + rise), (xend, yend),

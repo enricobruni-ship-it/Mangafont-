@@ -110,17 +110,17 @@ ALL = [TEXT, TEXT_BOLD, DISPLAY, DISPLAY_BOLD]
 
 BRUSH = Weight(
     "Mangafont Brush", "Regular", (62, 124, 176, 216),
-    gain=1.40, orn=1.80, adv_pad=28, overshoot=10, os2=700, bold=True,
+    gain=1.40, orn=1.80, adv_pad=74, overshoot=10, os2=700, bold=True,
     panose_weight=9)
 
 BLOCK = Weight(
     "Mangafont Block", "Regular", (168, 182, 192, 202),
-    gain=0.14, orn=0.42, adv_pad=40, overshoot=36, os2=700, bold=True,
+    gain=0.14, orn=0.42, adv_pad=84, overshoot=36, os2=700, bold=True,
     panose_weight=9)
 
 GOTHIC = Weight(
     "Mangafont Gothic", "Regular", (150, 156, 160, 164),
-    gain=0.05, orn=0.0, adv_pad=30, overshoot=4, os2=700, bold=True,
+    gain=0.05, orn=0.0, adv_pad=58, overshoot=4, os2=700, bold=True,
     panose_weight=9)
 
 CANDIDATES = [BRUSH, BLOCK, GOTHIC]

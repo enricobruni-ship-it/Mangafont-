@@ -21,7 +21,7 @@ as that character: X and x are メ, t is ナ, u is リ, l is レ, I is エ,
 
 from .stroke import Stroke, kata, kihitsu, w_of
 from . import stroke as _stroke
-from .pen import (UPM, CAP, XH, ASC, DESC, ASCENDER, DESCENDER,
+from .pen import (UPM, CAP, XH, ASC, DESC, ASCENDER, DESCENDER, wall,
                   WT, WY, WD, WC, RISE, L, R, ADV, FLAT,
                   yoko, yoko_in, tate, fold, box, ring, fusweep, sweep,
                   nobi, harai_l, harai_r, ten, hane)
@@ -54,9 +54,9 @@ def _C():
 
 def _D():
     x1, dy = 690, 154
-    rx = x1 - w_of(WT) * 0.5
+    rx = x1 - wall(WT)
     taper = [(0.0, w_of(WY) / w_of(WT)), (1.0, 1.0)]
-    return (tate(L + w_of(WT) * 0.5, CAP, 0)
+    return (tate(L + wall(WT), CAP, 0)
             + [yoko(L, x1 - 96, CAP, flag=False),
                yoko(L, x1 - 96, 0, flag=False)]
             + tate(rx, CAP - dy + 6, dy, WT, head=False)
@@ -227,8 +227,8 @@ LADV = 706
 def _a():
     """A squared bowl whose floor runs past the stem and flicks up."""
     x0, x1 = 72, 556
-    rx = x1 - w_of(WT) * 0.5
-    return (tate(x0 + w_of(WT) * 0.5, XH, 14)
+    rx = x1 - wall(WT)
+    return (tate(x0 + wall(WT), XH, 14)
             + [yoko(x0, x1, XH, flag=False), kata(rx, XH + 14, WT)]
             + tate(rx, XH + 14, 14, WT, head=False)
             + [hane([("M", x0, 12), ("L", 590, 30), ("L", 700, 104)], 58)]
@@ -256,13 +256,18 @@ def _d():
 
 
 def _e():
-    """The bowl closes at the top and opens at the foot."""
-    return (tate(122, XH, 46)
-            + [yoko(72, 604, XH)]
-            + tate(558, XH + 16, 336, WT, head=False)
-            + [kata(558, XH + 16, WT),
-               yoko(72, 640, 322),
-               hane([("M", 72, 2), ("L", 578, 20), ("L", 668, 98)], 54)]), 700
+    """The bowl closes at the top and opens at the foot.
+
+    The hardest letter to hold at display weight: a crossbar splitting a
+    bowl leaves two counters where every other letter has one.  So it is
+    drawn wider than the rest of the lowercase, with a thinner bar.
+    """
+    return (tate(60 + wall(WT), XH, 46)
+            + [yoko(60, 648, XH)]
+            + tate(648 - wall(WT), XH + 18, 352, WT, head=False)
+            + [kata(648 - wall(WT), XH + 18, WT),
+               yoko(60, 676, 338, WY * 0.78),
+               hane([("M", 60, 2), ("L", 620, 20), ("L", 710, 98)], 54)]), 744
 
 
 def _f():
@@ -275,8 +280,8 @@ def _f():
 def _g():
     """The bowl's right stem carries straight on into the descender."""
     x0, x1 = 72, 556
-    rx = x1 - w_of(WT) * 0.5
-    return (tate(x0 + w_of(WT) * 0.5, XH, 16)
+    rx = x1 - wall(WT)
+    return (tate(x0 + wall(WT), XH, 16)
             + [yoko(x0, x1, XH, flag=False), kata(rx, XH + 14, WT),
                hane([("M", rx, XH + 14), ("L", rx - 10, -46),
                      ("L", 366, -162), ("L", 162, -140), ("L", 108, -46)],
