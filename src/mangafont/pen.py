@@ -14,9 +14,9 @@ UPM = 1000
 CAP = 790          # cap height / figure height
 XH = 600           # x-height -- 0.76 of cap, so lowercase fills a square
 ASC = 858
-DESC = -170
+DESC = -238        # descenders: shallow ones read as runic
 ASCENDER = 900
-DESCENDER = -250
+DESCENDER = -300
 
 WT = 104           # 縦画  the stem
 WY = 46            # 横画  the hairline -- 0.44 of the stem
@@ -24,6 +24,11 @@ WD = 84            # 払い  the sweep
 WC = 70            # corner connectors
 
 RISE = 0.030       # horizontals climb ~1.7 degrees to the right
+
+# How far the first stroke of n / m / r / u rises above its own shoulder.
+# Stopping it flush with the arch gives a squat 冂 with nothing to
+# distinguish stem from bar, which is most of what reads as runic.
+SPUR = 88
 
 L, R = 64, 700     # the character face
 ADV = 768

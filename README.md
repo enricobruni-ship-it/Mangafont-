@@ -152,12 +152,22 @@ left and cut only on the right, which is what keeps the three apart.
 | Units per em | 1000 |
 | Cap height | 790 |
 | x-height | 600 — 0.76 of the cap, so lowercase sits in a square |
-| Ascender / descender | 858 / −170 |
+| Ascender / descender | 858 / −238 |
 | Stem / horizontal weight | 104 / 46 in the reference cut — contrast 0.44 |
 | Sweep / corner weight | 84 / 70 |
 
-Metrics are identical across all four cuts, so they can be swapped without
+Metrics are identical across all cuts, so they can be swapped without
 reflowing.
+
+Descenders are deep on purpose. Short extenders and a uniform height are
+most of what makes lettering read as *runic* rather than as a typeface, so
+`p q g j y` reach −238 and the first stroke of `n m r u` rises `SPUR`
+units above its own shoulder rather than stopping flush with it.
+
+`usWinAscent` / `usWinDescent` are derived from the actual outlines rather
+than set by hand. They are a **clipping** box, not a spacing one — ink
+outside them is cut off by some Windows rasterisers — so the typo metrics
+carry the design values and the win metrics track the ink.
 
 ## Coverage
 

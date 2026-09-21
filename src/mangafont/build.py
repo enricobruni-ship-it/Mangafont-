@@ -72,10 +72,29 @@ def _names(w):
     }
 
 
-def _os2(w):
+def _ink_bounds(glyf):
+    """The real vertical extent of the drawn glyphs."""
+    lo, hi = 0, 0
+    for g in glyf.values():
+        if getattr(g, "numberOfContours", 0) > 0 and len(g.coordinates):
+            ys = [p[1] for p in g.coordinates]
+            lo, hi = min(lo, min(ys)), max(hi, max(ys))
+    return lo, hi
+
+
+def _os2(w, bounds=None):
+    # usWinAscent/Descent are a CLIPPING box, not a spacing one: ink
+    # outside them is cut off by some Windows rasterisers.  Deepening the
+    # descenders pushed g, j and y past a hard-coded 300 in the heaviest
+    # cut.  So derive them from the actual outlines, and leave the typo
+    # metrics -- which are what line spacing reads -- at the design
+    # values.
+    lo, hi = bounds if bounds else (DESCENDER_D, ASCENDER_D)
     return dict(
         sTypoAscender=G.ASCENDER, sTypoDescender=G.DESCENDER,
-        sTypoLineGap=110, usWinAscent=G.ASCENDER, usWinDescent=-G.DESCENDER,
+        sTypoLineGap=110,
+        usWinAscent=int(max(hi, G.ASCENDER)),
+        usWinDescent=int(-min(lo, G.DESCENDER)),
         sxHeight=G.XH, sCapHeight=G.CAP,
         version=4,          # USE_TYPO_METRICS (bit 7) needs v4 or later
         usWeightClass=w.os2, usWidthClass=5,
@@ -87,14 +106,18 @@ def _os2(w):
     )
 
 
-def _common(fb, w, order, metrics):
+ASCENDER_D = 0
+DESCENDER_D = 0
+
+
+def _common(fb, w, order, metrics, bounds=None):
     fb.setupGlyphOrder(order)
     fb.setupCharacterMap(G.CMAP)
     fb.setupHorizontalMetrics(metrics)
     fb.setupHorizontalHeader(ascent=G.ASCENDER, descent=G.DESCENDER,
                              lineGap=110)
     fb.setupNameTable(_names(w))
-    fb.setupOS2(**_os2(w))
+    fb.setupOS2(**_os2(w, bounds))
     fb.setupPost(isFixedPitch=0, underlinePosition=-160,
                  underlineThickness=int(round(w.stem * 0.8)))
     if w.bold:
@@ -130,7 +153,7 @@ def to_otf(ttf, out_path, w, order, metrics):
         "FamilyName": w.family,
         "Weight": w.style,
     }, charstrings, {})
-    _common(fb, w, order, metrics)
+    _common(fb, w, order, metrics, _ink_bounds(ttf["glyf"]))
     fb.font.save(out_path)
     return out_path
 
@@ -148,9 +171,10 @@ def build_one(w, out_dir="build"):
     ST.set_weight(w)
     order, glyf, metrics = build_glyphs()
 
+    bounds = _ink_bounds(glyf)
     fb = FontBuilder(G.UPM, isTTF=True)
     fb.setupGlyf(glyf)
-    _common(fb, w, order, metrics)
+    _common(fb, w, order, metrics, bounds)
     font = fb.font
 
     # Glyphs are stacks of overlapping stroke contours -- exactly how a

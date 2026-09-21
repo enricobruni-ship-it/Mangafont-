@@ -21,7 +21,7 @@ as that character: X and x are メ, t is ナ, u is リ, l is レ, I is エ,
 
 from .stroke import Stroke, kata, kihitsu, w_of
 from . import stroke as _stroke
-from .pen import (UPM, CAP, XH, ASC, DESC, ASCENDER, DESCENDER, wall,
+from .pen import (UPM, CAP, XH, ASC, DESC, ASCENDER, DESCENDER, wall, SPUR,
                   WT, WY, WD, WC, RISE, L, R, ADV, FLAT,
                   yoko, yoko_in, tate, fold, box, ring, fusweep, sweep,
                   nobi, harai_l, harai_r, ten, hane)
@@ -147,7 +147,7 @@ def _P():
 
 def _Q():
     return ring(L + 6, R - 6, 0, CAP) + [
-        harai_r((392, 182), (690, -132), 80),
+        harai_r((392, 172), (700, -196), 80),
     ], ADV
 
 
@@ -283,8 +283,8 @@ def _g():
     rx = x1 - wall(WT)
     return (tate(x0 + wall(WT), XH, 16)
             + [yoko(x0, x1, XH, flag=False), kata(rx, XH + 14, WT),
-               hane([("M", rx, XH + 14), ("L", rx - 10, -46),
-                     ("L", 366, -162), ("L", 162, -140), ("L", 108, -46)],
+               hane([("M", rx, XH + 14), ("L", rx - 10, -78),
+                     ("L", 352, -196), ("L", 150, -174), ("L", 96, -80)],
                     WT),
                yoko(x0, x1 - 34, 16)]), 744
 
@@ -302,8 +302,8 @@ def _i():
 
 def _j():
     return [
-        hane([("M", 268, XH), ("L", 258, -38), ("L", 150, -150),
-              ("L", 40, -130), ("L", 6, -46)], 96),
+        hane([("M", 268, XH), ("L", 258, -82), ("L", 142, -190),
+              ("L", 30, -170), ("L", -6, -90)], 96),
         kihitsu(268, XH, 96),
         ten(212, 800),
     ], 440
@@ -326,7 +326,7 @@ def _l():
 
 def _m():
     """川 under one bar -- three stems, evenly spaced."""
-    return (tate(L + 50, XH, 0)
+    return (tate(L + 50, XH + SPUR, 0)
             + [yoko(L, 776, XH, flag=False)]
             + tate(414, XH + 21, 0, WT, head=False)
             + [kata(414, XH + 21, WT)]
@@ -335,8 +335,8 @@ def _m():
 
 
 def _n():
-    """冂"""
-    return (tate(L + 50, XH, 0)
+    """冂, with the stem rising past its own shoulder."""
+    return (tate(L + 50, XH + SPUR, 0)
             + fold(L, 592, XH, 0)), LADV
 
 
@@ -359,7 +359,7 @@ def _q():
 
 def _r():
     """ケ -- a hairline arm that lifts into a flick."""
-    return (tate(L + 50, XH, 0)
+    return (tate(L + 50, XH + SPUR, 0)
             + [yoko(L, 416, XH),
                Stroke([("M", 372, XH - 30), ("L", 470, XH + 96)], 78,
                       [(0.0, 1.12), (0.55, 0.78), (1.0, 0.04)])]), 530
@@ -387,7 +387,7 @@ def _t():
 
 def _u():
     """リ"""
-    return (tate(L + 50, XH, 86)
+    return (tate(L + 50, XH + SPUR, 86)
             + [yoko(L, 616, 16)]
             + tate(578, XH, 0)), 726
 
@@ -420,8 +420,8 @@ def _y():
     """メ, with the second sweep carrying on into the descender."""
     return [
         sweep((104, XH), (376, 140), 82),
-        hane([("M", 606, XH), ("L", 300, -46), ("L", 150, -152),
-              ("L", 40, -120)], 82),
+        hane([("M", 606, XH), ("L", 292, -92), ("L", 142, -192),
+              ("L", 28, -162)], 82),
     ], 700
 
 
