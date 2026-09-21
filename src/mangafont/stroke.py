@@ -91,6 +91,30 @@ PROFILES = {
     "nobi":      [(0.00, 0.20), (0.40, 0.72), (0.80, 1.10),
                   (0.93, 0.80), (1.00, 0.08)],
 
+    # 筆 -- a real brush stroke: the tip lands thin, the belly presses
+    # through the middle of the curve, the brush lifts to a point.  This
+    # is what separates hiragana from generic humanist calligraphy: the
+    # curve alone is not Japanese, the modulation on it is.
+    "fude":      [(0.00, 0.26), (0.11, 0.98), (0.42, 1.16),
+                  (0.74, 0.96), (1.00, 0.20)],
+
+    # the same brush, asked to finish rather than fly off -- for a bowl
+    # that has to meet its own stem.
+    "fude_in":   [(0.00, 0.26), (0.11, 0.98), (0.46, 1.16),
+                  (0.82, 1.00), (1.00, 0.72)],
+
+    # A hiragana stroke: laid down softly, swelling through the middle of
+    # the curve where the brush leans, lifted at the end.  Hiragana are
+    # cursive -- 草書 -- so they have no flat entry slab and no blunt
+    # stop, which is what makes a box-built lowercase read as mechanical.
+    "kana":      [(0.00, 0.70), (0.16, 1.06), (0.50, 1.00),
+                  (0.82, 1.04), (1.00, 0.78)],
+
+    # the same, running off to a point: bowls and shoulders that leave
+    # the page rather than stopping.
+    "kana_out":  [(0.00, 0.74), (0.16, 1.08), (0.52, 1.00),
+                  (0.80, 0.86), (1.00, 0.30)],
+
     # an angular sweep entering thin off a previous stroke and finishing
     # in a flick -- S, s, e, 2, 3.
     "sori":      [(0.00, 0.30), (0.09, 0.98), (0.42, 0.82),

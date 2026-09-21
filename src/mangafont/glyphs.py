@@ -225,49 +225,49 @@ LADV = 706
 
 
 def _a():
-    """A squared bowl whose floor runs past the stem and flicks up."""
-    x0, x1 = 72, 556
-    rx = x1 - wall(WT)
-    return (tate(x0 + wall(WT), XH, 14)
-            + [yoko(x0, x1, XH, flag=False), kata(rx, XH + 14, WT)]
-            + tate(rx, XH + 14, 14, WT, head=False)
-            + [hane([("M", x0, 12), ("L", 590, 30), ("L", 700, 104)], 58)]
-            ), 744
+    """か -- a swept bowl and a stem that flicks away."""
+    return [
+        Stroke([("M", 468, 482), ("Q", 300, 566, 176, 470),
+                ("Q", 62, 376, 130, 212), ("Q", 206, 34, 400, 60),
+                ("Q", 470, 72, 486, 130)], WT * 1.02, "fude_in"),
+        hane([("M", 506, XH + 20), ("Q", 486, 300, 498, 120),
+              ("Q", 508, 26, 626, 62)], WT * 0.96),
+    ], 700
 
 
 def _b():
-    return (tate(L + 50, ASC, 0)
-            + fold(L, 592, 450, 0)
-            + [yoko(L, 620, 0)]), LADV
+    """ほ -- an ascender with a bowl swung off its foot."""
+    return (tate(140, ASC, 24, WT * 0.96, "tate_tail")
+            + [Stroke([("M", 134, 404), ("Q", 320, 500, 452, 400),
+                       ("Q", 570, 302, 486, 152), ("Q", 400, 18, 216, 58),
+                       ("Q", 152, 74, 128, 116)], WT * 1.00, "fude_in")]), 660
 
 
 def _c():
-    """匚, with ヒ's flick."""
-    return ([yoko(72, 636, XH)]
-            + tate(122, XH, 40)
-            + [hane([("M", 72, 4), ("L", 596, 22), ("L", 664, 100)], 54)]), 690
+    """く -- one stroke, in and out."""
+    return [
+        Stroke([("M", 566, 508), ("Q", 360, 596, 200, 476),
+                ("Q", 62, 366, 140, 196), ("Q", 220, 28, 430, 54),
+                ("Q", 520, 68, 572, 132)], WT * 1.06, "fude"),
+    ], 632
 
 
 def _d():
-    return (tate(592, ASC, 0)
-            + [yoko(L, 620, 450)]
-            + tate(L + 50, 464, 0)
-            + [yoko(L, 620, 0)]), LADV
+    """た -- bowl swung off a descending ascender."""
+    return (tate(524, ASC, 24, WT * 0.96, "tate_tail")
+            + [Stroke([("M", 530, 404), ("Q", 344, 500, 212, 400),
+                       ("Q", 94, 302, 178, 152), ("Q", 264, 18, 448, 58),
+                       ("Q", 512, 74, 536, 116)], WT * 1.00, "fude_in")]), 660
 
 
 def _e():
-    """The bowl closes at the top and opens at the foot.
-
-    The hardest letter to hold at display weight: a crossbar splitting a
-    bowl leaves two counters where every other letter has one.  So it is
-    drawn wider than the rest of the lowercase, with a thinner bar.
-    """
-    return (tate(60 + wall(WT), XH, 46)
-            + [yoko(60, 648, XH)]
-            + tate(648 - wall(WT), XH + 18, 352, WT, head=False)
-            + [kata(648 - wall(WT), XH + 18, WT),
-               yoko(60, 676, 338, WY * 0.78),
-               hane([("M", 60, 2), ("L", 620, 20), ("L", 710, 98)], 54)]), 744
+    """え -- a bar, then a stroke that curls under and sweeps out."""
+    return [
+        yoko(96, 542, 340, WY * 0.9),
+        Stroke([("M", 520, 470), ("Q", 340, 588, 184, 478),
+                ("Q", 58, 376, 134, 208), ("Q", 218, 30, 430, 62),
+                ("Q", 542, 84, 594, 176)], WT * 1.02, "fude"),
+    ], 648
 
 
 def _f():
@@ -278,30 +278,23 @@ def _f():
 
 
 def _g():
-    """Bowl, then a leg that is actually a leg.
-
-    The hard part at display weight: the bowl's floor is a full hairline
-    thick -- 168 units in the heaviest cut -- and it sits on the
-    baseline, so it eats the top of the descender.  Give the leg too
-    little room below that floor and bowl, floor and hook merge into one
-    solid blob with no leg in it at all.  So the floor is drawn thinner
-    than the rest of the lowercase, the leg runs well clear of it before
-    turning, and the hook is tight rather than broad.
-    """
-    x0, x1 = 72, 556
-    rx = x1 - wall(WT)
-    return (tate(x0 + wall(WT), XH, 16)
-            + [yoko(x0, x1, XH, flag=False), kata(rx, XH + 14, WT),
-               yoko(x0, x1 - 40, 16, WY * 0.72),
-               hane([("M", rx, XH + 14), ("L", rx - 16, -214),
-                     ("L", 292, -300), ("L", 132, -264)], WT * 0.96, r=44)]
-            ), 744
+    """が -- bowl, then a descender that swings away."""
+    return [
+        Stroke([("M", 470, 470), ("Q", 300, 562, 176, 466),
+                ("Q", 62, 372, 130, 210), ("Q", 206, 32, 400, 58),
+                ("Q", 468, 70, 486, 126)], WT * 1.02, "fude_in"),
+        hane([("M", 508, XH + 18), ("Q", 486, 200, 468, -86),
+              ("Q", 448, -290, 250, -262), ("Q", 154, -248, 122, -168)],
+             WT * 0.92),
+    ], 700
 
 
 def _h():
-    """冂 hung on a tall stem."""
-    return (tate(L + 50, ASC, 0)
-            + fold(L, 592, XH, 0)), LADV
+    """は -- an ascender with a shoulder that springs and falls away."""
+    return (tate(140, ASC, 0, WT * 0.96)
+            + [Stroke([("M", 128, 318), ("Q", 190, 556, 372, 560),
+                       ("Q", 540, 564, 548, 330), ("Q", 552, 170, 540, 14)],
+                      WT * 1.02, "fude_in")]), 664
 
 
 def _i():
@@ -334,54 +327,68 @@ def _l():
 
 
 def _m():
-    """川 under one bar -- three stems, evenly spaced."""
-    return (tate(L + 50, XH + SPUR, 0)
-            + [yoko(L, 776, XH, flag=False)]
-            + tate(414, XH + 21, 0, WT, head=False)
-            + [kata(414, XH + 21, WT)]
-            + tate(726, XH + 23, 0, WT, head=False)
-            + [kata(726, XH + 23, WT)]), 840
+    """two shoulders, each springing and falling."""
+    return (tate(118, XH, 0, WT * 0.94)
+            + [Stroke([("M", 108, 326), ("Q", 164, 556, 320, 560),
+                       ("Q", 468, 564, 476, 334), ("Q", 480, 176, 470, 14)],
+                      WT * 1.00, "fude_in"),
+               Stroke([("M", 466, 340), ("Q", 518, 558, 672, 562),
+                       ("Q", 820, 566, 828, 336), ("Q", 832, 176, 822, 14)],
+                      WT * 1.00, "fude_in")]), 950
 
 
 def _n():
-    """冂, with the stem rising past its own shoulder."""
-    return (tate(L + 50, XH + SPUR, 0)
-            + fold(L, 592, XH, 0)), LADV
+    """の's shoulder: it springs off the stem and falls away, rather than
+    turning a corner."""
+    return (tate(124, XH, 0, WT * 0.94)
+            + [Stroke([("M", 114, 322), ("Q", 174, 556, 350, 560),
+                       ("Q", 520, 564, 528, 330), ("Q", 532, 172, 520, 14)],
+                      WT * 1.02, "fude_in")]), 650
 
 
 def _o():
-    return ring(72, 636, 10, XH, 96, cx=0.21), 708
+    """の -- two swept halves, not a chamfered box."""
+    return [
+        Stroke([("M", 356, 566), ("Q", 170, 552, 106, 380),
+                ("Q", 48, 194, 210, 74), ("Q", 300, 20, 370, 16)],
+               WT * 1.02, "fude_in"),
+        Stroke([("M", 352, 566), ("Q", 540, 552, 604, 380),
+                ("Q", 662, 194, 500, 74), ("Q", 410, 20, 346, 16)],
+               WT * 1.02, "fude_in"),
+    ], 712
 
 
 def _p():
-    return (tate(L + 50, XH, DESC)
-            + fold(L, 592, XH, 24)
-            + [yoko(L, 620, 16)]), LADV
+    """bowl swung off a descending stem."""
+    return (tate(140, XH, DESC, WT * 0.96, "tate_tail")
+            + [Stroke([("M", 134, 448), ("Q", 320, 552, 456, 448),
+                       ("Q", 578, 344, 490, 182), ("Q", 400, 40, 214, 84),
+                       ("Q", 152, 100, 128, 144)], WT * 1.00, "fude_in")]), 664
 
 
 def _q():
-    return (tate(592, XH, DESC)
-            + [yoko(L, 620, XH)]
-            + tate(L + 50, XH + 18, 16)
-            + [yoko(L, 620, 8)]), LADV
+    """the mirror of p."""
+    return (tate(524, XH, DESC, WT * 0.96, "tate_tail")
+            + [Stroke([("M", 530, 448), ("Q", 344, 552, 208, 448),
+                       ("Q", 86, 344, 174, 182), ("Q", 264, 40, 450, 84),
+                       ("Q", 512, 100, 536, 144)], WT * 1.00, "fude_in")]), 664
 
 
 def _r():
-    """ケ -- a hairline arm that lifts into a flick."""
-    return (tate(L + 50, XH + SPUR, 0)
-            + [yoko(L, 416, XH),
-               Stroke([("M", 372, XH - 30), ("L", 470, XH + 96)], 78,
-                      [(0.0, 1.12), (0.55, 0.78), (1.0, 0.04)])]), 530
+    """ら -- a stem and an arm that lifts away."""
+    return (tate(124, XH, 0, WT * 0.94)
+            + [Stroke([("M", 114, 340), ("Q", 190, 566, 368, 558),
+                       ("Q", 460, 552, 504, 486)], WT * 1.02, "fude")]), 512
 
 
 def _s():
-    """己, at x-height."""
-    return ([yoko(84, 596, XH)]
-            + tate(134, XH, 366)
-            + [yoko(84, 606, 328)]
-            + tate(556, 328, 74, WT, head=False)
-            + [kata(556, 328, WT),
-               hane([("M", 56, 8), ("L", 540, 26), ("L", 632, 106)], 54)]), 660
+    """ろ -- one flowing stroke that changes its mind twice."""
+    return [
+        Stroke([("M", 530, 500), ("Q", 400, 590, 236, 548),
+                ("Q", 110, 514, 214, 424), ("Q", 320, 336, 452, 282),
+                ("Q", 566, 232, 472, 118), ("Q", 372, 12, 190, 68),
+                ("Q", 114, 92, 86, 148)], WT * 1.00, "fude"),
+    ], 600
 
 
 def _t():
@@ -395,10 +402,11 @@ def _t():
 
 
 def _u():
-    """リ"""
-    return (tate(L + 50, XH + SPUR, 86)
-            + [yoko(L, 616, 16)]
-            + tate(578, XH, 0)), 726
+    """う -- the left stroke swings through the floor and up."""
+    return ([Stroke([("M", 128, XH), ("Q", 116, 256, 152, 130),
+                     ("Q", 216, -14, 400, 46), ("Q", 500, 82, 520, 210)],
+                    WT * 1.02, "fude_in")]
+            + tate(536, XH, 0, WT * 0.94, "tate_tail")), 672
 
 
 def _v():
