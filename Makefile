@@ -16,8 +16,13 @@ check: font
 specimen: font
 	@echo "open specimen/index.html"
 
+# The specimen PDFs and the download zip.  Made by hand once, which is
+# how they ended up three commits behind the fonts beside them.
+dist: font
+	$(PY) tools/package.py
+
 clean:
 	rm -rf build/*.ttf build/*.woff2 build/*.png
 	find src tools -name '__pycache__' -type d -exec rm -rf {} +
 
-.PHONY: all font proof check specimen clean
+.PHONY: all font proof check specimen dist clean

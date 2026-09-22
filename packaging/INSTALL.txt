@@ -1,0 +1,43 @@
+Mangafont
+A Latin alphabet drawn in katakana - plus the katakana themselves, so
+RAMEN and ラーメン can be set in one face.
+
+WHAT TO INSTALL
+  Open "install-these (TTF)" and install all five files. They group into
+  two families:
+
+     Mangafont Text      Regular + Bold   <- body copy, UI, small sizes
+     Mangafont           Regular + Bold   <- headlines, signage, display
+     Mangafont Comic     Regular          <- comic lettering, titles, SFX
+
+  Bold linking works inside each family, so Cmd-B / Ctrl-B does the right
+  thing. Set a headline in Mangafont and the body in Mangafont Text.
+
+HOW TO INSTALL
+  macOS      Select all five .ttf, double-click, then "Install Font".
+  Windows    Select all five .ttf, right-click, "Install for all users".
+  Linux      Copy to ~/.local/share/fonts/ then run: fc-cache -f -v
+
+  Quit and reopen any app that was already running - most only scan
+  fonts at launch.
+
+WHAT IS IN IT (188 glyphs per cut)
+  Latin      A-Z, a-z, 0-9, all printable ASCII
+  Katakana   the complete U+30A1-U+30F4 block: all 46 base kana, the
+             voiced (ガ ザ ダ バ ヴ) and semi-voiced (パ ピ プ ペ ポ)
+             forms, the small kana (ァ ィ ゥ ェ ォ ッ ャ ュ ョ), plus
+             ー (chouonpu) and ・ (nakaguro)
+  Also       、 。 en dash, em dash
+
+  To type katakana you need a Japanese input method - macOS: System
+  Settings > Keyboard > Input Sources > add Japanese. Windows: Settings
+  > Time & language > Language > add Japanese.
+
+THE OTHER FOLDERS
+  design-apps (OTF)   Same outlines, CFF/PostScript build. Pick TTF or
+                      OTF, not both - installing both makes the font
+                      menu ambiguous.
+  web (WOFF2)         For @font-face on a website.
+
+LICENCE
+  SIL Open Font License 1.1 - see OFL.txt.
