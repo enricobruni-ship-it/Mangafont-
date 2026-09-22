@@ -91,17 +91,28 @@ PROFILES = {
     "nobi":      [(0.00, 0.20), (0.40, 0.72), (0.80, 1.10),
                   (0.93, 0.80), (1.00, 0.08)],
 
-    # 筆 -- a real brush stroke: the tip lands thin, the belly presses
-    # through the middle of the curve, the brush lifts to a point.  This
-    # is what separates hiragana from generic humanist calligraphy: the
-    # curve alone is not Japanese, the modulation on it is.
-    "fude":      [(0.00, 0.26), (0.11, 0.98), (0.42, 1.16),
-                  (0.74, 0.96), (1.00, 0.20)],
+    # 筆 -- a real brush stroke.  The shape that matters is not how thin
+    # the tip gets but HOW MUCH OF THE STROKE IS THIN: the brush runs
+    # lean through a long entry and swells into the belly.  An earlier
+    # cut reached full width by t=0.11, which left the body monoline and
+    # meant that changing the profile moved only a few percent of the
+    # ink -- three very different brushes rendered as one flat letter.
+    "fude":      [(0.00, 0.16), (0.30, 0.60), (0.58, 1.24),
+                  (0.82, 0.94), (1.00, 0.20)],
 
     # the same brush, asked to finish rather than fly off -- for a bowl
     # that has to meet its own stem.
-    "fude_in":   [(0.00, 0.26), (0.11, 0.98), (0.46, 1.16),
-                  (0.82, 1.00), (1.00, 0.72)],
+    "fude_in":   [(0.00, 0.16), (0.30, 0.60), (0.60, 1.24),
+                  (0.86, 1.06), (1.00, 0.78)],
+
+    # り's long stroke, which is neither 左払い nor はね.  左払い presses
+    # early and thins the whole way down; はね flares at the head and
+    # needles at the foot.  Either one turns a full-height stem into a
+    # wedge, and a wedge reads as a diagonal -- l came out looking like
+    # a slash.  This holds full width down almost the entire descent,
+    # gives way only at the very end, and keeps the tip blunt.
+    "ri":        [(0.00, 1.14), (0.06, 1.02), (0.72, 1.00),
+                  (0.88, 0.92), (0.96, 0.60), (1.00, 0.18)],
 
     # A hiragana stroke: laid down softly, swelling through the middle of
     # the curve where the brush leans, lifted at the end.  Hiragana are

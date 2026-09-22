@@ -135,7 +135,18 @@ COMIC = Weight(
     "Mangafont Comic", "Regular", BRUSH.anchors,
     gain=BRUSH.gain, orn=BRUSH.orn, adv_pad=BRUSH.adv_pad,
     overshoot=BRUSH.overshoot, os2=800, bold=True, panose_weight=9)
-COMIC.lower = BLOCK
+
+# The lowercase used to render on BLOCK, and that was the real reason it
+# read as "squared and mechanical" -- not only the box skeletons.  BLOCK
+# is contrast 0.83 and gain 0.14: monoline by construction, and it throws
+# 86% of any brush away.  Swapping stroke profiles under it moved almost
+# no ink at all.  This keeps BLOCK's stem (202), so the two registers
+# still sit on one line and match in colour, but opens the contrast and
+# the gain far enough that the brush actually survives.
+COMIC.lower = Weight(
+    "Mangafont Comic", "Regular", (104, 150, 178, 202),
+    gain=0.70, orn=1.25, adv_pad=BLOCK.adv_pad,
+    overshoot=BLOCK.overshoot, os2=800, bold=True, panose_weight=9)
 
 # The alternative: not two registers bolted together but one that takes
 # Brush's dramatic terminals and Block's robustness -- the hairlines

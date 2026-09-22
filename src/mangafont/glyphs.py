@@ -244,12 +244,12 @@ def _b():
 
 
 def _c():
-    """く -- one stroke, in and out."""
+    """く, but the exit trails off rather than stopping."""
     return [
         Stroke([("M", 566, 508), ("Q", 360, 596, 200, 476),
                 ("Q", 62, 366, 140, 196), ("Q", 220, 28, 430, 54),
-                ("Q", 520, 68, 572, 132)], WT * 1.06, "fude"),
-    ], 632
+                ("Q", 524, 72, 596, 158)], WT * 1.06, "fude"),
+    ], 636
 
 
 def _d():
@@ -271,10 +271,14 @@ def _e():
 
 
 def _f():
-    """千 -- a stem, a flag, and a crossbar that runs past it."""
-    return (tate(352, 832, 0)
-            + [yoko(352, 606, 830, 44),
-               yoko(84, 622, XH)]), 660
+    """千's flag and crossbar, on a stem that sweeps away like り."""
+    return [
+        Stroke([("M", 366, 836), ("Q", 366, 470, 364, 186),
+                ("Q", 362, 100, 314, 66), ("Q", 276, 40, 232, 46)],
+               WT * 0.94, "ri"),
+        yoko(366, 610, 828, WY * 0.96),
+        yoko(92, 626, XH),
+    ], 616
 
 
 def _g():
@@ -283,9 +287,9 @@ def _g():
         Stroke([("M", 470, 470), ("Q", 300, 562, 176, 466),
                 ("Q", 62, 372, 130, 210), ("Q", 206, 32, 400, 58),
                 ("Q", 468, 70, 486, 126)], WT * 1.02, "fude_in"),
-        hane([("M", 508, XH + 18), ("Q", 486, 200, 468, -86),
-              ("Q", 448, -290, 250, -262), ("Q", 154, -248, 122, -168)],
-             WT * 0.92),
+        Stroke([("M", 508, XH + 18), ("Q", 502, 260, 496, -120),
+                ("Q", 490, -222, 432, -258), ("Q", 386, -288, 338, -280)],
+               WT * 0.94, "ri"),
     ], 700
 
 
@@ -303,27 +307,38 @@ def _i():
 
 
 def _j():
+    """り carried below the line."""
     return [
-        hane([("M", 268, XH), ("L", 258, -82), ("L", 142, -190),
-              ("L", 30, -170), ("L", -6, -90)], 96),
-        kihitsu(268, XH, 96),
-        ten(212, 800),
+        Stroke([("M", 300, XH), ("Q", 300, 220, 298, -120),
+                ("Q", 296, -210, 246, -244), ("Q", 208, -272, 164, -266)],
+               WT * 0.94, "ri"),
+        ten(238, 792),
     ], 440
 
 
 def _k():
     return (tate(150, ASC, 0)
-            + [sweep((636, XH - 2), (88, 278), 78),
+            + [sweep((636, XH - 2), (88, 278), 78, amount=0.105),
                harai_r((152, 332), (648, 2), 82)]), 672
 
 
 def _l():
-    """レ"""
+    """り -- and り is not レ.
+
+    レ turns a corner and fires off.  り never corners: the stem holds
+    vertical, bows late, and the brush leaves.  Two things have to be
+    true at once.  The hook must COMPLETE ITS TURN -- an earlier cut had
+    no kink in it and still read as angular, because it stopped near
+    -150 degrees, still travelling diagonally.  And the RADIUS must stay
+    small: completing that turn over a wide arc puts stem and hook on
+    one slant and the eye reads a diagonal.  Vertical for the top ~78%,
+    then a tight quarter turn at the foot.
+    """
     return [
-        hane([("M", 208, ASC), ("L", 202, 96), ("L", 300, 18),
-              ("L", 430, 40), ("L", 468, 110)], 96),
-        kihitsu(208, ASC, 96),
-    ], 500
+        Stroke([("M", 268, ASC), ("Q", 268, 420, 266, 190),
+                ("Q", 264, 96, 214, 62), ("Q", 176, 36, 132, 40)],
+               WT * 0.96, "ri"),
+    ], 452
 
 
 def _m():
@@ -392,13 +407,13 @@ def _s():
 
 
 def _t():
-    """十 -- the bar crosses the stem and runs past both sides."""
+    """り carrying 十's crossbar."""
     return [
-        hane([("M", 338, 780), ("L", 330, 118), ("L", 420, 32),
-              ("L", 530, 56), ("L", 566, 126)], 96),
-        kihitsu(338, 780, 96),
-        yoko(88, 604, XH),
-    ], 640
+        Stroke([("M", 362, 788), ("Q", 362, 440, 360, 180),
+                ("Q", 358, 96, 310, 64), ("Q", 272, 38, 228, 44)],
+               WT * 0.94, "ri"),
+        yoko(96, 612, XH),
+    ], 586
 
 
 def _u():
@@ -411,24 +426,24 @@ def _u():
 
 def _v():
     return [
-        sweep((104, XH), (322, 6), 82),
-        sweep((584, XH), (340, 6), 82),
+        sweep((104, XH), (322, 6), 82, amount=0.10),
+        sweep((584, XH), (340, 6), 82, amount=-0.10),
     ], 694
 
 
 def _w():
     return [
-        sweep((88, XH), (230, 6), 72),
-        sweep((386, XH - 14), (244, 6), 72),
-        sweep((394, XH - 14), (534, 6), 72),
-        sweep((690, XH), (548, 6), 72),
+        sweep((88, XH), (230, 6), 72, amount=0.10),
+        sweep((386, XH - 14), (244, 6), 72, amount=-0.10),
+        sweep((394, XH - 14), (534, 6), 72, amount=0.10),
+        sweep((690, XH), (548, 6), 72, amount=-0.10),
     ], 786
 
 
 def _x():
     """乂"""
     return [
-        sweep((610, XH), (86, 2), 82),
+        sweep((610, XH), (86, 2), 82, amount=0.09),
         harai_r((94, XH - 10), (610, 2), 82),
     ], 700
 
@@ -436,9 +451,10 @@ def _x():
 def _y():
     """メ, with the second sweep carrying on into the descender."""
     return [
-        sweep((104, XH), (376, 140), 82),
-        hane([("M", 606, XH), ("L", 292, -92), ("L", 142, -192),
-              ("L", 28, -162)], 82),
+        sweep((104, XH), (376, 140), 82, amount=0.09),
+        Stroke([("M", 606, XH), ("Q", 448, -14, 318, -152),
+                ("Q", 258, -216, 200, -230), ("Q", 150, -242, 116, -222)],
+               WT * 0.82, "ri"),
     ], 700
 
 
@@ -775,6 +791,55 @@ from . import katakana as _kana                                  # noqa: E402
 _KANA_NAMES = set(_kana.TABLE)
 for _n, (_fn, _uni) in _kana.TABLE.items():
     _TABLE[_n] = (_fn, _uni)
+
+
+# ---------------------------------------------------------------- はね
+#
+# Hiragana ends a stroke three ways: 止め a stop, はね a flick back up,
+# 払い a sweep away.  Every terminal in the lowercase used to be a stop,
+# which is a large part of why it read as mechanical -- the letters had
+# been redrawn on curves while still finishing like boxes.  These flick
+# the way い and け do.
+#
+# The wrapping happens HERE, on the table, rather than around glyph().
+# glyph() switches to the lowercase cut, calls the function, and switches
+# back; a Stroke captures gain, ornament scale and overshoot at
+# CONSTRUCTION.  Building the flick outside that window hands it the
+# capitals' cut -- gain 1.40 against the lowercase's 0.70, which turns a
+# kana_out terminal (0.30) into 0.02 rather than 0.51, a 5-unit needle
+# where a 94-unit taper belongs.
+
+_FLICK = {"n": (150, 118, 0.86), "m": (150, 118, 0.86), "h": (150, 118, 0.86),
+          "i": (138, 112, 0.80), "d": (150, 118, 0.86), "u": (128, 96, 0.78),
+          "a": (140, 104, 0.82), "r": (132, 100, 0.80)}
+
+
+def _with_flick(fn, dx, dy, wm):
+    """Spring a はね off whichever stroke finishes lowest."""
+    def wrapped():
+        strokes, adv = fn()
+        best, besty = None, 1e9
+        for st in strokes:
+            if not hasattr(st, "path"):
+                continue
+            end = _stroke.flatten(st.path)[-1]
+            if end[1] < besty:
+                best, besty = st, end[1]
+        if best is None or besty > 110:
+            return strokes, adv
+        x, y = _stroke.flatten(best.path)[-1]
+        # Pulling the control well along x and low in y bends the flick
+        # instead of firing it off straight -- the same "finish the turn"
+        # point as the り hooks.
+        tick = Stroke([("M", x, y),
+                       ("Q", x + dx * 0.74, y + dy * 0.14, x + dx, y + dy)],
+                      WT * wm, "kana_out")
+        return strokes + [tick], max(adv, int(x + dx) + 40)
+    return wrapped
+
+
+for _ch, (_dx, _dy, _wm) in _FLICK.items():
+    _TABLE[_ch] = (_with_flick(_TABLE[_ch][0], _dx, _dy, _wm), _TABLE[_ch][1])
 
 ALL_NAMES = list(_TABLE.keys())
 CMAP = {uni: name for name, (_, uni) in _TABLE.items()}
