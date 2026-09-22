@@ -131,9 +131,16 @@ GOTHIC = Weight(
 
 # Brush caps over Block lowercase, exactly as asked.  The stems are
 # close enough (216 against 202) for the two to sit on one line.
+# The capitals carried the mirror of the lowercase fault.  At BRUSH's
+# gain of 1.40 the sweep profile's 0.02 tip computes to -0.37, so ten
+# letters ran NEGATIVE and were clamped to MIN_WIDTH: 36 of W's 228
+# samples came out as a 5-unit hairline, which is why V W X Y Z looked
+# spindly and broken.  0.90 clamps nothing, so the taper the profile
+# actually describes is the taper that gets drawn -- less truncation,
+# not less drama.
 COMIC = Weight(
     "Mangafont Comic", "Regular", BRUSH.anchors,
-    gain=BRUSH.gain, orn=BRUSH.orn, adv_pad=BRUSH.adv_pad,
+    gain=0.90, orn=BRUSH.orn, adv_pad=BRUSH.adv_pad,
     overshoot=BRUSH.overshoot, os2=800, bold=True, panose_weight=9)
 
 # The lowercase used to render on BLOCK, and that was the real reason it

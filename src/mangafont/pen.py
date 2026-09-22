@@ -145,14 +145,22 @@ def fusweep(x0, x1, ytop, xend, yend, wy=WY, ws=WD, wt=WT, amount=None):
 # How much hiragana is let into the katakana structure.  These are the
 # only three knobs: a bow on the long sweeps, rounded corners inside a
 # stroke, and a curl on the flick.
-BOW = 0.052        # 払い bend
+#
+# Read at CALL time, never bound as a default argument.  Binding them in
+# a signature freezes them at import, so setting pen.BOW afterwards
+# changes nothing -- which is what happened: a "bowed sweeps" cut came
+# out identical to the unbowed one everywhere except Z, the single
+# letter whose bow goes through fusweep(), which had always resolved the
+# global late.
+BOW = 0.088        # 払い bend -- the caps' diagonals carry the
+                   # same curve the lowercase got
 CURVE = 78         # radius of a rounded corner within a stroke
 CURL = 0.19        # how far a はね turns back on itself
 
 
-def sweep(p0, p1, w=WD, amount=BOW):
+def sweep(p0, p1, w=WD, amount=None):
     """払い at katakana length -- ノ -- bent like a hiragana stroke."""
-    return Stroke(bow(p0, p1, amount), w, "sweep")
+    return Stroke(bow(p0, p1, BOW if amount is None else amount), w, "sweep")
 
 
 def nobi(p0, p1, w=WD):
@@ -175,13 +183,15 @@ def ten(x, y, dx=86, dy=-92, w=76):
     return Stroke([("M", x, y), ("L", x + dx, y + dy)], w, "ten")
 
 
-def hane(path, w=WT, r=CURVE, curl=CURL):
+def hane(path, w=WT, r=None, curl=None):
     """A stroke that rounds its corners and curls off at the tip.
 
     Where the katakana version turned a corner and fired straight away,
     this rolls through the turn and lets the flick curve back -- which is
     the difference between レ and し.
     """
+    r = CURVE if r is None else r
+    curl = CURL if curl is None else curl
     return Stroke(curl_tip(round_corners(path, r), curl), w, "hane")
 
 
